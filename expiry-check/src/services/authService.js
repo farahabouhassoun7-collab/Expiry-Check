@@ -109,3 +109,13 @@ export async function getMe() {
   const data = await res.json();
   return data.user;
 }
+
+
+/**
+ * Logout - clear session and optionally call backend logout endpoint
+ */
+export async function logout() {
+  // In a real app, you might want to call a backend logout endpoint
+  // to invalidate the token on the server side
+  clearSession();
+}

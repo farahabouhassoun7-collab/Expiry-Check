@@ -35,7 +35,10 @@
     "medium":         "Medium",
     "low":            "Low",
     "safe":           "Safe",
-    "expired":        "Expired"
+    "expired":        "Expired",
+    "profile":        "Profile",
+    "settings":       "Settings",
+    "logout":         "Logout"
   },
   "theme": {
     "label":  "Theme",

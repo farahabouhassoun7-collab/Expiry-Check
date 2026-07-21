@@ -1,11 +1,25 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { logout, getUser } from '../../services/authService';
 import ThemeToggle from '../ui/ThemeToggle';
 import LanguageSwitcher from '../ui/LanguageSwitcher';
 
 export default function Topbar() {
   const { t }     = useTranslation();
   const { isRTL } = useLanguage();
+  const navigate  = useNavigate();
+  const [showDropdown, setShowDropdown] = useState(false);
+  
+  const user = getUser();
+  const userName = user?.firstName ? `${user.firstName} ${user.lastName}` : 'User';
+  const userInitials = user?.firstName ? `${user.firstName.charAt(0)}${user.lastName?.charAt(0) || ''}` : 'U';
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/login');
+  };
 
   return (
     <header
@@ -90,28 +104,83 @@ export default function Topbar() {
           {/* Divider */}
           <div className="w-px h-8 mx-1" style={{ background: 'var(--color-border-subtle)' }} />
 
-          {/* User */}
-          <button
-            className="flex items-center gap-2 px-2 py-1 rounded-full border border-transparent transition-all"
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background   = 'var(--color-surface-muted)';
-              e.currentTarget.style.borderColor  = 'var(--color-border-subtle)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background   = 'transparent';
-              e.currentTarget.style.borderColor  = 'transparent';
-            }}
-          >
-            <span className="text-xs font-semibold" style={{ color: 'var(--color-text-body)' }}>
-              Alex Rivera
-            </span>
-            <div
-              className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
-              style={{ background: 'var(--color-primary)' }}
+          {/* User Dropdown */}
+          <div className="relative">
+            <button
+              className="flex items-center gap-2 px-2 py-1 rounded-full border border-transparent transition-all"
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background   = 'var(--color-surface-muted)';
+                e.currentTarget.style.borderColor  = 'var(--color-border-subtle)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background   = 'transparent';
+                e.currentTarget.style.borderColor  = 'transparent';
+              }}
+              onClick={() => setShowDropdown(!showDropdown)}
             >
-              AR
-            </div>
-          </button>
+              <span className="text-xs font-semibold" style={{ color: 'var(--color-text-body)' }}>
+                {userName}
+              </span>
+              <div
+                className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
+                style={{ background: 'var(--color-primary)' }}
+              >
+                {userInitials}
+              </div>
+            </button>
+
+            {/* Dropdown Menu */}
+            {showDropdown && (
+              <div
+                className="absolute top-full mt-1 end-0 w-48 rounded-xl border shadow-lg animate-fade-in"
+                style={{
+                  background: 'var(--color-background-pure)',
+                  borderColor: 'var(--color-border-subtle)',
+                  zIndex: 50,
+                }}
+                onMouseLeave={() => setShowDropdown(false)}
+              >
+                <div className="p-3 border-b" style={{ borderColor: 'var(--color-border-subtle)' }}>
+                  <p className="text-sm font-semibold" style={{ color: 'var(--color-text-heading)' }}>
+                    {user?.email}
+                  </p>
+                  <p className="text-xs mt-1" style={{ color: 'var(--color-outline)' }}>
+                    {user?.role || 'User'}
+                  </p>
+                </div>
+                <div className="p-1">
+                  <button
+                    className="w-full text-start px-3 py-2 rounded-lg text-sm transition-colors flex items-center gap-2"
+                    style={{ color: 'var(--color-text-body)' }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-surface-muted)'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                  >
+                    <span className="material-symbols-outlined text-base">person</span>
+                    {t('common.profile')}
+                  </button>
+                  <button
+                    className="w-full text-start px-3 py-2 rounded-lg text-sm transition-colors flex items-center gap-2"
+                    style={{ color: 'var(--color-text-body)' }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-surface-muted)'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                  >
+                    <span className="material-symbols-outlined text-base">settings</span>
+                    {t('common.settings')}
+                  </button>
+                  <button
+                    className="w-full text-start px-3 py-2 rounded-lg text-sm transition-colors flex items-center gap-2"
+                    style={{ color: 'var(--color-error)' }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-error-container)'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                    onClick={handleLogout}
+                  >
+                    <span className="material-symbols-outlined text-base">logout</span>
+                    {t('common.logout')}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </header>
