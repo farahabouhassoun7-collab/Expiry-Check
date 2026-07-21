@@ -1,0 +1,131 @@
+# ===================================================================
+# Root .gitignore for Expiry-Check project
+# ===================================================================
+
+# Common exclusions
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+Thumbs.db
+desktop.ini
+*.log
+
+# OS generated files
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# Development environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
+
+# IDE files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Compiled source
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# ===================================================================
+# expiry-check (React Web App)
+# ===================================================================
+expiry-check/node_modules/
+expiry-check/dist/
+expiry-check/dist-ssr/
+expiry-check/*.local
+expiry-check/coverage/
+expiry-check/.env
+
+# ===================================================================
+# expiry-check-mobile (React Native Mobile App)
+# ===================================================================
+expiry-check-mobile/node_modules/
+expiry-check-mobile/.expo/
+expiry-check-mobile/dist/
+expiry-check-mobile/npm-debug.*
+expiry-check-mobile/*.jks
+expiry-check-mobile/*.p8
+expiry-check-mobile/*.p12
+expiry-check-mobile/*.key
+expiry-check-mobile/*.mobileprovision
+expiry-check-mobile/*.orig.*
+expiry-check-mobile/web-build/
+expiry-check-mobile/expo-env.d.ts
+
+# ===================================================================
+# expiry-check-api (ASP.NET Core API)
+# ===================================================================
+expiry-check-api/bin/
+expiry-check-api/obj/
+expiry-check-api/.vs/
+expiry-check-api/appsettings.Development.json
+expiry-check-api/appsettings.Local.json
+expiry-check-api/.env
+
+# Test results
+*.trx
+*.coverage
+*.coveragexml
+
+# NuGet packages
+*.nupkg
+**/packages/
+
+# Azure Functions
+*.azurefunctions
+
+# Rider
+*.sln.iml
+
+# ===================================================================
+# Other directories that should not be committed
+# ===================================================================
+# Visual design files (screenshots, etc.)
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.gif
+
+# Log directories from any project
+**/logs/
+
+# Backup files
+*.bak
+*.tmp
+*.temp
+
+# Database files
+*.mdf
+*.ldf
+*.sqlite

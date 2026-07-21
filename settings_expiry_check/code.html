@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings | Expiry Check</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface": "#f8f9ff",
+                      "text-body": "#334155",
+                      "surface-muted": "#F8FAFC",
+                      "on-primary-fixed-variant": "#005236",
+                      "on-tertiary-fixed-variant": "#842225",
+                      "on-secondary-fixed": "#001a42",
+                      "on-surface": "#0b1c30",
+                      "tertiary": "#a43a3a",
+                      "on-error": "#ffffff",
+                      "background": "#f8f9ff",
+                      "secondary": "#0058be",
+                      "secondary-fixed-dim": "#adc6ff",
+                      "background-pure": "#FFFFFF",
+                      "tertiary-fixed": "#ffdad7",
+                      "primary-container": "#10b981",
+                      "on-primary-container": "#00422b",
+                      "secondary-container": "#2170e4",
+                      "primary": "#006c49",
+                      "accent-danger": "#FF3D57",
+                      "outline-variant": "#bbcabf",
+                      "tertiary-fixed-dim": "#ffb3af",
+                      "text-heading": "#0F172A",
+                      "tertiary-container": "#fc7c78",
+                      "on-background": "#0b1c30",
+                      "on-secondary": "#ffffff",
+                      "error": "#ba1a1a",
+                      "secondary-fixed": "#d8e2ff",
+                      "on-tertiary-fixed": "#410005",
+                      "outline": "#6c7a71",
+                      "on-surface-variant": "#3c4a42",
+                      "surface-container-high": "#dce9ff",
+                      "inverse-primary": "#4edea3",
+                      "surface-container-low": "#eff4ff",
+                      "on-error-container": "#93000a",
+                      "surface-dim": "#cbdbf5",
+                      "on-tertiary": "#ffffff",
+                      "inverse-on-surface": "#eaf1ff",
+                      "primary-fixed": "#6ffbbe",
+                      "on-secondary-fixed-variant": "#004395"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "stack-sm": "8px",
+                      "base": "4px",
+                      "stack-md": "16px",
+                      "gutter": "24px",
+                      "container-max": "1280px",
+                      "margin-desktop": "32px",
+                      "stack-lg": "24px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "code": ["jetbrainsMono"],
+                      "body-md": ["Inter"],
+                      "display-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .active-tab {
+            @apply border-primary text-primary bg-primary/5;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            @apply appearance-none w-5 h-5 bg-primary rounded-full cursor-pointer border-4 border-white shadow-md;
+        }
+        .bento-card {
+            @apply bg-background-pure border border-border-subtle rounded-xl p-stack-lg transition-all duration-300;
+        }
+        .bento-card:hover {
+            @apply border-primary/20 shadow-lg shadow-primary/5;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-text-body overflow-hidden">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-surface border-r border-border-subtle flex flex-col py-stack-lg px-stack-md z-[60]">
+<div class="mb-stack-lg px-4">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface">Expiry Check</h1>
+<p class="font-label-sm text-label-sm uppercase tracking-widest text-outline">Intelligence Suite</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 font-label-md text-label-md text-text-body hover:bg-surface-muted transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 font-label-md text-label-md text-text-body hover:bg-surface-muted transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">inventory_2</span>
+                Products
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 font-label-md text-label-md text-text-body hover:bg-surface-muted transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">notifications_active</span>
+                Alerts
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 font-label-md text-label-md text-text-body hover:bg-surface-muted transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">monitoring</span>
+                Analytics
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 font-label-md text-label-md text-text-body hover:bg-surface-muted transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary">psychology</span>
+                AI Insights
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 font-label-md text-label-md text-primary dark:text-primary-fixed-dim font-bold border-r-2 border-primary bg-primary/5 transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</nav>
+<div class="mt-auto px-4 pt-stack-lg border-t border-border-subtle">
+<div class="flex items-center gap-3">
+<img alt="User Profile" class="w-10 h-10 rounded-full border-2 border-primary-fixed-dim" data-alt="A professional headshot of a shop manager in a brightly lit, modern minimalist office environment. The person is smiling warmly and wearing smart-casual attire. The background is softly blurred, focusing on the high-quality, professional aesthetic of the business management context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAd5qOOLPczle7lAFX1DXqtIOH4U8Y4cpoCeFKySIIP6Ja6WIHWmK5Mr0cGMtKOjgLhISxxYxNk73T6wgEaM-sxcG7WuqVoXDQ-nSEMZva-w2769jj9HLHm_br-CdqKmixPMH1UjDTzlhDG4b6042gmJBZNfffkeeinjxtCj263sFl3qUGv8bxLbfWomsixES5Nbsx-V14DRVxnf-XuHPPeBh02l-Z1aKpsqDSURvoQgG-hw5ixmY5zd-mkXWuFQifi3wkucmG9imM"/>
+<div class="overflow-hidden">
+<p class="font-label-md text-label-md text-on-surface truncate">Alex Chen</p>
+<p class="font-body-sm text-body-sm text-outline truncate">Admin Account</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="ml-64 flex flex-col h-screen overflow-hidden">
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-50 h-16 bg-background-pure border-b border-border-subtle flex justify-between items-center px-gutter">
+<div class="flex items-center flex-1">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-muted border-none rounded-lg font-body-sm text-body-sm focus:ring-2 focus:ring-primary/20" placeholder="Search settings, users, or help..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-muted rounded-lg transition-all active:scale-95">
+<span class="material-symbols-outlined text-text-body">notifications</span>
+</button>
+<button class="p-2 hover:bg-surface-muted rounded-lg transition-all active:scale-95">
+<span class="material-symbols-outlined text-text-body">auto_awesome</span>
+</button>
+<div class="h-8 w-px bg-border-subtle mx-2"></div>
+<button class="flex items-center gap-2 px-3 py-1.5 hover:bg-surface-muted rounded-lg transition-all active:scale-95">
+<span class="material-symbols-outlined text-text-body">account_circle</span>
+<span class="font-label-md text-label-md">Store Profile</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Content -->
+<main class="mt-16 p-stack-lg overflow-y-auto bg-surface-muted flex-1">
+<div class="max-w-[1280px] mx-auto space-y-stack-lg">
+<!-- Page Header -->
+<div class="flex justify-between items-end pb-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-heading">Configuration</h2>
+<p class="font-body-md text-body-md text-text-body mt-1">Manage your enterprise environment and AI orchestration.</p>
+</div>
+<button class="bg-primary text-on-primary px-stack-lg py-2 rounded-lg font-label-md hover:opacity-90 active:scale-[0.98] transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">save</span>
+                        Save Changes
+                    </button>
+</div>
+<!-- Tab Navigation -->
+<div class="flex items-center gap-2 border-b border-border-subtle">
+<button class="tab-btn px-6 py-4 font-label-md text-label-md border-b-2 border-transparent hover:text-primary transition-all active-tab" data-tab="store-profile" onclick="switchTab('store-profile')">Store Profile</button>
+<button class="tab-btn px-6 py-4 font-label-md text-label-md border-b-2 border-transparent hover:text-primary transition-all" data-tab="team-management" onclick="switchTab('team-management')">Team Management</button>
+<button class="tab-btn px-6 py-4 font-label-md text-label-md border-b-2 border-transparent hover:text-primary transition-all" data-tab="notifications" onclick="switchTab('notifications')">Notifications</button>
+<button class="tab-btn px-6 py-4 font-label-md text-label-md border-b-2 border-transparent hover:text-primary transition-all" data-tab="ai-engine" onclick="switchTab('ai-engine')">AI Engine</button>
+<button class="tab-btn px-6 py-4 font-label-md text-label-md border-b-2 border-transparent hover:text-primary transition-all" data-tab="integrations" onclick="switchTab('integrations')">Integrations</button>
+<button class="tab-btn px-6 py-4 font-label-md text-label-md border-b-2 border-transparent hover:text-primary transition-all" data-tab="billing" onclick="switchTab('billing')">Billing</button>
+</div>
+<!-- Tab Content: AI Engine (Default Visual Focus) -->
+<div class="tab-pane grid grid-cols-12 gap-stack-lg" id="ai-engine-content">
+<!-- Left Column: Controls -->
+<div class="col-span-8 space-y-stack-lg">
+<div class="bento-card">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h3 class="font-headline-md text-headline-md text-text-heading">Decision Parameters</h3>
+<p class="font-body-sm text-body-sm text-text-body">Configure how the AI prioritizes waste reduction vs profit margins.</p>
+</div>
+<span class="bg-primary-container/10 text-primary px-3 py-1 rounded-full font-label-sm text-label-sm">Active Intelligence</span>
+</div>
+<div class="space-y-8">
+<div>
+<div class="flex justify-between mb-4">
+<label class="font-label-md text-label-md">Risk Sensitivity</label>
+<span class="font-code text-primary font-bold">75%</span>
+</div>
+<input class="w-full h-2 bg-surface-container rounded-lg appearance-none cursor-pointer accent-primary" type="range"/>
+<div class="flex justify-between mt-2 text-label-sm text-outline">
+<span>Conservative (LIFO)</span>
+<span>Aggressive (FEFO)</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-stack-lg">
+<div class="p-4 rounded-xl border border-border-subtle bg-surface-muted">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-md">Auto-recommend Discounts</span>
+<input checked="" class="w-10 h-5 rounded-full appearance-none bg-outline-variant checked:bg-primary relative transition-all cursor-pointer after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:w-4 after:h-4 after:rounded-full after:transition-all checked:after:translate-x-5" type="checkbox"/>
+</div>
+<p class="font-body-sm text-body-sm text-outline">AI suggests markdown levels based on shelf-life velocity.</p>
+</div>
+<div class="p-4 rounded-xl border border-border-subtle bg-surface-muted">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-md">Dynamic Pricing API</span>
+<input class="w-10 h-5 rounded-full appearance-none bg-outline-variant checked:bg-primary relative transition-all cursor-pointer after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:w-4 after:h-4 after:rounded-full after:transition-all checked:after:translate-x-5" type="checkbox"/>
+</div>
+<p class="font-body-sm text-body-sm text-outline">Push real-time markdown updates to connected POS systems.</p>
+</div>
+</div>
+<div>
+<label class="font-label-md text-label-md block mb-4">Confidence Threshold</label>
+<div class="flex items-center gap-4">
+<div class="flex-1 h-3 bg-surface-container rounded-full overflow-hidden flex">
+<div class="bg-primary w-[85%] h-full"></div>
+</div>
+<span class="font-code text-on-surface">0.85 σ</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline mt-2 italic">Requires 85% statistical certainty before triggering automated alerts.</p>
+</div>
+</div>
+</div>
+<!-- Team Management Section (Integrated in list style) -->
+<div class="bento-card">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline-md text-headline-md text-text-heading">Staff &amp; Permissions</h3>
+<button class="text-primary font-label-md flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+                                    Add Member
+                                </button>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-3 hover:bg-surface-muted rounded-xl transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary font-bold">JD</div>
+<div>
+<p class="font-label-md">James Durnham</p>
+<p class="font-body-sm text-outline">Store Manager</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Admin</span>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-text-body">more_vert</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 hover:bg-surface-muted rounded-xl transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary font-bold">SP</div>
+<div>
+<p class="font-label-md">Sarah Porter</p>
+<p class="font-body-sm text-outline">Inventory Lead</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="bg-surface-container text-text-body px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Editor</span>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-text-body">more_vert</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 hover:bg-surface-muted rounded-xl transition-colors">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-outline-variant flex items-center justify-center text-white font-bold">MK</div>
+<div>
+<p class="font-label-md">Mike Kovak</p>
+<p class="font-body-sm text-outline">Staff</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="bg-surface-container text-text-body px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Viewer</span>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-text-body">more_vert</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Integrations & Status -->
+<div class="col-span-4 space-y-stack-lg">
+<div class="bento-card">
+<h3 class="font-label-md text-label-md text-outline uppercase tracking-widest mb-6">Connected Systems</h3>
+<div class="space-y-6">
+<div class="flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-black flex items-center justify-center p-2">
+<img alt="Square Logo" class="w-full h-full object-contain" data-alt="A clean, minimalist logo icon for Square payments, featuring the iconic rounded square within a square design. The style is modern, flat, and professional, rendered in a crisp monochrome aesthetic suitable for a high-end SaaS integrations dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHM8DeyjOUhX3Ric5LXYrjbjVfJhwg7rccAqsu-qqDlx4MXtOWUq82lAEDrd2KbkfZ5SQCVwL5YI-HBtDcoPSwV1_zNrCDy16Lb61BiCM0B-WmdX1Frn9eoZzYSCHjIiV0Hq2kNL7uE_9zlyZBgx3xynqlmUw4OmPnvi7YSl5YbyqxY6WEf49YlzbWPEYpiJUpVoLTQ-TcuZSfStb1eopPu5L_0iurDaZnSRtt8H_nQ3eARvNOkGPX3f7TydHWGS49awcTMXwUjgw"/>
+</div>
+<div>
+<p class="font-label-md">Square POS</p>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="text-xs text-primary font-bold">Connected</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">settings</span>
+</div>
+<div class="flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-[#2CB34A] flex items-center justify-center p-2">
+<img alt="Clover Logo" class="w-full h-full object-contain" data-alt="A minimalist digital icon for Clover point of sale systems, showcasing a clean four-leaf clover aesthetic in vibrant green and white. The design is high-resolution, flat, and vector-styled for a corporate enterprise software interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCANlr4_w_PGuy4KqINWf44b0Zq7GMarDYvRET-2ruVvMxUFr4tTZA_hjtEDsr_xrAYzI4a9QQFwRmmjVSRVzk7txVsCfzugYcXdjtp2xDOpkSobXsbK9y2NpuBQ2897eV8ILmlRAKmlQJpixK4RbaVk8m0Xp26Yq6VO2RlOHrik-z5kC-rW9jmL8RUTWtawKwICVSnIn3ycrGrCpX7aNgAJcnlikFQBhRvRDCwO9m1OF_vTAtuFZ287Ac8JINvfwAsr_04PratThQ"/>
+</div>
+<div>
+<p class="font-label-md">Clover</p>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="text-xs text-primary font-bold">Connected</span>
+</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">settings</span>
+</div>
+<div class="flex items-center justify-between group grayscale hover:grayscale-0 transition-all">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center p-2">
+<span class="material-symbols-outlined text-outline text-3xl">add_link</span>
+</div>
+<div>
+<p class="font-label-md">Lightspeed</p>
+<span class="text-xs text-outline">Disconnected</span>
+</div>
+</div>
+<button class="text-secondary font-label-sm hover:underline">Link</button>
+</div>
+</div>
+</div>
+<div class="bento-card bg-primary-container/10 border-none relative overflow-hidden">
+
+<div class="relative z-10">
+<h3 class="font-label-md text-primary mb-2">Usage Credits</h3>
+<p class="text-3xl font-bold text-on-primary-container">1,482 <span class="text-sm font-normal">/ 2,000</span></p>
+<div class="w-full h-2 bg-white/30 rounded-full mt-4">
+<div class="w-[74%] h-full bg-primary-container rounded-full"></div>
+</div>
+<p class="text-xs text-on-primary-container/60 mt-3">Next reset in 12 days. Upgrade for unlimited processing.</p>
+<button class="mt-4 w-full bg-on-primary-container text-white py-2 rounded-lg font-label-md text-sm hover:bg-black transition-colors">Upgrade Plan</button>
+</div>
+</div>
+<div class="bento-card border-tertiary/20">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-tertiary">error</span>
+<div>
+<h4 class="font-label-md text-tertiary">System Integrity</h4>
+<p class="font-body-sm text-body-sm text-text-body mt-1">2 critical data points missing in "Dairy" category. AI predictions may be degraded.</p>
+<button class="mt-3 text-tertiary font-bold text-xs flex items-center gap-1 uppercase tracking-wider">Fix Now <span class="material-symbols-outlined text-[14px]">arrow_forward</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Stats -->
+<footer class="flex items-center justify-between py-6 border-t border-border-subtle opacity-60">
+<div class="flex gap-8">
+<div>
+<p class="text-xs uppercase tracking-tighter font-bold text-outline">System Version</p>
+<p class="text-sm font-code">v4.12.0-beta</p>
+</div>
+<div>
+<p class="text-xs uppercase tracking-tighter font-bold text-outline">Last Sync</p>
+<p class="text-sm font-code">Today, 09:42 AM</p>
+</div>
+</div>
+<div class="flex gap-4">
+<a class="text-xs hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-xs hover:text-primary transition-colors" href="#">Documentation</a>
+<a class="text-xs hover:text-primary transition-colors" href="#">Support Ticket</a>
+</div>
+</footer>
+</div>
+</main>
+</div>
+<script>
+        function switchTab(tabId) {
+            // Update Tab UI
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active-tab', 'border-primary', 'text-primary', 'bg-primary/5');
+                btn.classList.add('border-transparent');
+                if (btn.getAttribute('data-tab') === tabId) {
+                    btn.classList.add('active-tab');
+                }
+            });
+
+            // Logic for tab content switching could go here
+            // Currently, we are visually focused on AI Engine per prompt focus
+            console.log("Navigating to:", tabId);
+        }
+
+        // Initialize state
+        window.addEventListener('DOMContentLoaded', () => {
+            // Animation for cards entry
+            const cards = document.querySelectorAll('.bento-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+    </script>
+</body></html>

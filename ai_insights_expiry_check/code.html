@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Insights | Expiry Check</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#f8f9ff",
+                        "text-body": "#334155",
+                        "surface-muted": "#F8FAFC",
+                        "on-primary-fixed-variant": "#005236",
+                        "on-tertiary-fixed-variant": "#842225",
+                        "on-secondary-fixed": "#001a42",
+                        "on-surface": "#0b1c30",
+                        "tertiary": "#a43a3a",
+                        "on-error": "#ffffff",
+                        "background": "#f8f9ff",
+                        "secondary": "#0058be",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "background-pure": "#FFFFFF",
+                        "tertiary-fixed": "#ffdad7",
+                        "primary-container": "#10b981",
+                        "on-tertiary-container": "#711419",
+                        "inverse-surface": "#213145",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#fefcff",
+                        "primary-fixed-dim": "#4edea3",
+                        "border-subtle": "#E2E8F0",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container": "#e5eeff",
+                        "on-primary-fixed": "#002113",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#006c49",
+                        "surface-variant": "#d3e4fe",
+                        "on-primary-container": "#00422b",
+                        "secondary-container": "#2170e4",
+                        "primary": "#006c49",
+                        "accent-danger": "#FF3D57",
+                        "outline-variant": "#bbcabf",
+                        "tertiary-fixed-dim": "#ffb3af",
+                        "text-heading": "#0F172A",
+                        "tertiary-container": "#fc7c78",
+                        "on-background": "#0b1c30",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-tertiary-fixed": "#410005",
+                        "outline": "#6c7a71",
+                        "on-surface-variant": "#3c4a42",
+                        "surface-container-high": "#dce9ff",
+                        "inverse-primary": "#4edea3",
+                        "surface-container-low": "#eff4ff",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#cbdbf5",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary-fixed": "#6ffbbe",
+                        "on-secondary-fixed-variant": "#004395"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "stack-sm": "8px",
+                        "base": "4px",
+                        "stack-md": "16px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "margin-desktop": "32px",
+                        "stack-lg": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "code": ["jetbrainsMono"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8f9ff; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .bento-card { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .bento-card:hover { transform: translateY(-2px); border-color: #adc6ff; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); }
+    </style>
+</head>
+<body class="text-text-body overflow-hidden">
+<!-- Side Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-surface dark:bg-on-surface border-r border-border-subtle dark:border-outline-variant flex flex-col py-stack-lg px-stack-md z-[60]">
+<div class="mb-stack-lg px-2">
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface dark:text-surface">Expiry Check</h1>
+<p class="font-label-sm text-label-sm uppercase tracking-widest text-secondary opacity-70">Intelligence Suite</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-3 py-2 text-text-body dark:text-surface-variant hover:bg-surface-muted dark:hover:bg-on-surface-variant transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center px-3 py-2 text-text-body dark:text-surface-variant hover:bg-surface-muted dark:hover:bg-on-surface-variant transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3">inventory_2</span>
+<span class="font-label-md text-label-md">Products</span>
+</a>
+<a class="flex items-center px-3 py-2 text-text-body dark:text-surface-variant hover:bg-surface-muted dark:hover:bg-on-surface-variant transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3">notifications_active</span>
+<span class="font-label-md text-label-md">Alerts</span>
+</a>
+<a class="flex items-center px-3 py-2 text-text-body dark:text-surface-variant hover:bg-surface-muted dark:hover:bg-on-surface-variant transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3">monitoring</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<!-- Active State: AI Insights -->
+<a class="flex items-center px-3 py-2 text-primary dark:text-primary-fixed-dim font-bold border-r-2 border-primary bg-surface-container-low transition-colors rounded-l-lg group" href="#">
+<span class="material-symbols-outlined mr-3" style="font-variation-settings: 'FILL' 1;">psychology</span>
+<span class="font-label-md text-label-md">AI Insights</span>
+</a>
+<a class="flex items-center px-3 py-2 text-text-body dark:text-surface-variant hover:bg-surface-muted dark:hover:bg-on-surface-variant transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-4 bg-surface-container rounded-xl">
+<div class="flex items-center space-x-3">
+<img alt="User Profile" class="w-10 h-10 rounded-full border-2 border-white shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDr1L3CEq8eed4ITDBtLcFDOJmb7EfrLL_BaaDsAAxhIHRRaF4kTCjxylG3TzNawJn_rsEKmOvFi7s1Kaz_RuBNTpXB78mBSvKJ3FK5DRD72PUF-GJHeDiJ1gCCFq91xLkEMOgElOfsaKRwI4cqRmbDsirs76MEyYrU8HASkcEFaEBrs7phq1EJRNmRkMc52jkKeKT6Ci7zB7zbOW5T9xLWM2zURfFUWTT7qcT1N2nLTG4y0vqutr-ntqFWSp0PH9fuT9mKPVFGfPU"/>
+<div class="overflow-hidden">
+<p class="font-label-md text-label-md text-on-surface truncate">Alex Rivera</p>
+<p class="font-label-sm text-label-sm text-text-body opacity-70">Admin Access</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Top Navigation -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-50 h-16 bg-background-pure dark:bg-on-surface border-b border-border-subtle dark:border-outline-variant flex justify-between items-center px-gutter">
+<div class="flex items-center w-1/3">
+<div class="relative w-full max-w-sm">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-body opacity-50">search</span>
+<input class="w-full bg-surface-muted border-none rounded-lg py-2 pl-10 pr-4 text-body-sm font-body-sm focus:ring-2 focus:ring-secondary/20" placeholder="Search predictions..." type="text"/>
+</div>
+</div>
+<div class="flex items-center space-x-6">
+<button class="text-text-body hover:bg-surface-muted p-2 rounded-lg transition-all active:scale-95">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-text-body hover:bg-surface-muted p-2 rounded-lg transition-all active:scale-95">
+<span class="material-symbols-outlined">auto_awesome</span>
+</button>
+<div class="h-8 w-[1px] bg-border-subtle"></div>
+<button class="flex items-center space-x-2 text-text-body hover:bg-surface-muted px-2 py-1 rounded-lg transition-all active:scale-95">
+<span class="font-label-md text-label-md">Operations Mode</span>
+<span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="ml-64 mt-16 p-stack-lg h-[calc(100vh-64px)] overflow-y-auto custom-scrollbar">
+<div class="max-w-container-max mx-auto space-y-stack-lg pb-stack-lg">
+<!-- Hero Insight & Action Integration -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-stack-lg">
+<div class="lg:col-span-2 relative overflow-hidden rounded-xl bg-on-primary-container p-stack-lg text-white shadow-lg group">
+<div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[120px]">smart_toy</span>
+</div>
+<div class="relative z-10 space-y-4">
+<div class="inline-flex items-center px-3 py-1 bg-primary-container/20 border border-primary-container/30 rounded-full">
+<span class="material-symbols-outlined text-sm mr-2" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="font-label-sm text-label-sm text-primary-fixed-dim">AI Strategy Update</span>
+</div>
+<h2 class="font-headline-md text-headline-md max-w-lg">Reduce dairy order for next week by 15% based on current turnover</h2>
+<p class="text-white/80 font-body-md text-body-md max-w-md">Our predictive model suggests a temporary dip in dairy consumption based on local event data and historical patterns.</p>
+<div class="flex space-x-4 pt-2">
+<button class="bg-primary-container hover:bg-primary text-on-primary-container font-label-md text-label-md px-6 py-2.5 rounded-lg active:scale-95 transition-all shadow-md">Apply Recommendation</button>
+<button class="bg-white/10 hover:bg-white/20 text-white font-label-md text-label-md px-6 py-2.5 rounded-lg active:scale-95 transition-all">Review Data</button>
+</div>
+</div>
+</div>
+<!-- KPI Bento Cluster -->
+<div class="flex flex-col gap-stack-lg">
+<div class="bento-card flex-1 bg-white border border-border-subtle rounded-xl p-stack-md flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div>
+<p class="font-label-sm text-label-sm text-text-body opacity-60 uppercase tracking-wider">Total Predicted Loss</p>
+<h3 class="font-display-lg text-[32px] text-text-heading mt-1">$4,280.50</h3>
+</div>
+<span class="material-symbols-outlined text-accent-danger bg-accent-danger/10 p-2 rounded-lg">trending_down</span>
+</div>
+<div class="w-full bg-surface-muted h-2 rounded-full mt-4 overflow-hidden">
+<div class="bg-accent-danger h-full w-[65%]" style="box-shadow: 0 0 10px rgba(255, 61, 87, 0.3);"></div>
+</div>
+<p class="font-body-sm text-body-sm text-text-body mt-2">65% of potential waste threshold</p>
+</div>
+<div class="grid grid-cols-2 gap-stack-md">
+<div class="bento-card bg-white border border-border-subtle rounded-xl p-stack-md">
+<p class="font-label-sm text-label-sm text-text-body opacity-60 uppercase">Unsold Qty</p>
+<h4 class="font-headline-md text-headline-md text-text-heading mt-1">1,248</h4>
+<p class="text-secondary font-label-sm text-label-sm mt-1">Items at risk</p>
+</div>
+<div class="bento-card bg-white border border-border-subtle rounded-xl p-stack-md">
+<p class="font-label-sm text-label-sm text-text-body opacity-60 uppercase">AI Accuracy</p>
+<h4 class="font-headline-md text-headline-md text-text-heading mt-1">98.2%</h4>
+<p class="text-primary font-label-sm text-label-sm mt-1">High confidence</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Main Table Section -->
+<section class="bg-white border border-border-subtle rounded-xl shadow-sm overflow-hidden">
+<div class="p-stack-lg border-b border-border-subtle flex justify-between items-center">
+<div>
+<h2 class="font-headline-md text-headline-md text-text-heading">Products Predicted to Expire</h2>
+<p class="text-text-body opacity-60 font-body-sm text-body-sm">Analysis of inventory expected to expire before anticipated sale date</p>
+</div>
+<div class="flex space-x-3">
+<button class="flex items-center px-3 py-2 border border-border-subtle rounded-lg hover:bg-surface-muted transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm mr-2">filter_alt</span> Filter
+                        </button>
+<button class="flex items-center px-3 py-2 border border-border-subtle rounded-lg hover:bg-surface-muted transition-colors font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm mr-2">download</span> Export
+                        </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-muted/50 border-b border-border-subtle">
+<th class="px-6 py-4 font-label-md text-label-md text-text-body">Product</th>
+<th class="px-6 py-4 font-label-md text-label-md text-text-body">Loss Value</th>
+<th class="px-6 py-4 font-label-md text-label-md text-text-body">Unsold Qty</th>
+<th class="px-6 py-4 font-label-md text-label-md text-text-body">Recommendation</th>
+<th class="px-6 py-4 font-label-md text-label-md text-text-body">Confidence</th>
+<th class="px-6 py-4 font-label-md text-label-md text-text-body"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="hover:bg-surface-muted transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-lg bg-surface flex items-center justify-center border border-border-subtle">
+<span class="material-symbols-outlined text-secondary opacity-70">egg</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-text-heading">Organic Greek Yogurt</p>
+<p class="font-body-sm text-body-sm opacity-50">SKU: DG-293</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md font-semibold text-accent-danger">$842.00</td>
+<td class="px-6 py-4 font-body-md text-body-md">210 units</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary-container/10 text-primary">
+                                        Clearance Bundle
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center space-x-2">
+<div class="flex-1 h-1.5 w-16 bg-surface-muted rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[94%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-text-body">94%</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="opacity-0 group-hover:opacity-100 transition-opacity p-2 hover:bg-white rounded-lg border border-transparent hover:border-border-subtle">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-muted transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-lg bg-surface flex items-center justify-center border border-border-subtle">
+<span class="material-symbols-outlined text-secondary opacity-70">bakery_dining</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-text-heading">Artisan Sourdough</p>
+<p class="font-body-sm text-body-sm opacity-50">SKU: BK-441</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md font-semibold text-accent-danger">$315.50</td>
+<td class="px-6 py-4 font-body-md text-body-md">45 units</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-secondary-container/10 text-secondary">
+                                        End-of-Day 50%
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center space-x-2">
+<div class="flex-1 h-1.5 w-16 bg-surface-muted rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[88%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-text-body">88%</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="opacity-0 group-hover:opacity-100 transition-opacity p-2 hover:bg-white rounded-lg border border-transparent hover:border-border-subtle">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-muted transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-lg bg-surface flex items-center justify-center border border-border-subtle">
+<span class="material-symbols-outlined text-secondary opacity-70">set_meal</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-text-heading">Atlantic Salmon Fillets</p>
+<p class="font-body-sm text-body-sm opacity-50">SKU: SF-102</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-md text-body-md font-semibold text-accent-danger">$1,120.00</td>
+<td class="px-6 py-4 font-body-md text-body-md">32 units</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-tertiary-container/10 text-tertiary">
+                                        Immediate Markdown
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center space-x-2">
+<div class="flex-1 h-1.5 w-16 bg-surface-muted rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[97%]"></div>
+</div>
+<span class="font-label-sm text-label-sm text-text-body">97%</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="opacity-0 group-hover:opacity-100 transition-opacity p-2 hover:bg-white rounded-lg border border-transparent hover:border-border-subtle">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 bg-surface-muted border-t border-border-subtle flex justify-center">
+<button class="text-primary font-label-md text-label-md hover:underline">View All Predicted At-Risk Inventory</button>
+</div>
+</section>
+<!-- Recommended Campaigns Section -->
+<section class="space-y-stack-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined text-secondary">campaign</span>
+<h2 class="font-headline-md text-headline-md text-text-heading">AI Recommended Campaigns</h2>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-stack-lg">
+<!-- Campaign Card 1 -->
+<div class="bg-white border border-border-subtle rounded-xl overflow-hidden bento-card">
+<div class="h-48 bg-surface-container relative">
+<img class="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-700" data-alt="A professional high-angle shot of fresh market produce including greens and vibrant vegetables in a minimalist grocery setting. The lighting is soft and natural, emphasizing a premium health-conscious aesthetic. The color palette is dominated by deep forest greens and neutral wood tones, creating a high-end sustainable atmosphere for a clearance campaign." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAB0GwaUNPBOLx3PYoremAjRnMyj7e7obj3mKw1eomi50psNGBiswp7Vys9ggFCqm75k0t1ZAUazD_Fa6xBOcPAePXAxsc6v9kSkbVnxyLdW4x1GWKxlbWQkXvKgqCnnsgGYcgNLcv89rdacU9YgGFpl-sqX4iZHST-9yU5ZjaXgC2nKzKsVgGCR3LAaz8hsIEGfOjQVOIVc5DO0CqnoL2Uw4lz_Jo-9N4AJ31KjICmr1tQq260hfDVxM5OjPWBWlxtm-4gE7aIoB0"/>
+<div class="absolute top-4 left-4">
+<span class="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-secondary border border-secondary/20">Weekend Clearance</span>
+</div>
+</div>
+<div class="p-stack-md space-y-3">
+<h3 class="font-label-md text-label-md text-text-heading">Organic Produce Blitz</h3>
+<p class="font-body-sm text-body-sm text-text-body opacity-70 line-clamp-2">Bundle 5+ items for a 40% discount. High surplus of seasonal greens and berries predicted for Monday.</p>
+<div class="flex items-center justify-between pt-2">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full bg-primary-container/20 border-2 border-white flex items-center justify-center"><span class="material-symbols-outlined text-xs">eco</span></div>
+<div class="w-8 h-8 rounded-full bg-secondary-container/20 border-2 border-white flex items-center justify-center"><span class="material-symbols-outlined text-xs">nutrition</span></div>
+</div>
+<button class="text-primary font-label-md text-label-md hover:underline flex items-center">
+                                    Launch Campaign <span class="material-symbols-outlined ml-1 text-sm">arrow_outward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Campaign Card 2 -->
+<div class="bg-white border border-border-subtle rounded-xl overflow-hidden bento-card">
+<div class="h-48 bg-surface-container relative">
+<img class="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-700" data-alt="A minimalist overhead view of various high-quality dairy products like greek yogurt and premium cheeses arranged on a slate surface. The lighting is bright and clean with crisp shadows, creating a sophisticated cold-storage aesthetic. The palette features cool blues and pristine whites, conveying freshness and quality for a precision-timed sale campaign." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSNdbA3OVl8DaRrzWdlTz-W8HIogCTDU3fPjan1yATHmezmN5aUxA1Eja4lBTlVbpzrn7bVc4pjIF1R5FV9GOKiZj_3Yjoyv0e2S1f5pJG702X82HuZXfNZbpdtdDDfPnJltE4aqMLRFU0YltKZ_rBK75Kj-vt9FfWYtquVsjMpIORCdNr0aoCYrLw6Y81gj0igk_9o6HsumIQIHdfmnl7OjebwhydbzoKoiG6p9-0kRRuI3jEA82uGAshLmV4c4jT4YnPS6OpUtM"/>
+<div class="absolute top-4 left-4">
+<span class="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full font-label-sm text-label-sm text-primary border border-primary/20">Dairy Precision</span>
+</div>
+</div>
+<div class="p-stack-md space-y-3">
+<h3 class="font-label-md text-label-md text-text-heading">Morning Dairy Drive</h3>
+<p class="font-body-sm text-body-sm text-text-body opacity-70 line-clamp-2">BOGO on short-dated Greek Yogurt. Optimal for loyalty program push via mobile app notifications.</p>
+<div class="flex items-center justify-between pt-2">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full bg-on-surface-variant/20 border-2 border-white flex items-center justify-center"><span class="material-symbols-outlined text-xs">notifications</span></div>
+<div class="w-8 h-8 rounded-full bg-primary-container/20 border-2 border-white flex items-center justify-center"><span class="material-symbols-outlined text-xs">verified</span></div>
+</div>
+<button class="text-primary font-label-md text-label-md hover:underline flex items-center">
+                                    Launch Campaign <span class="material-symbols-outlined ml-1 text-sm">arrow_outward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Campaign Card 3 (Bento Style/Abstract) -->
+<div class="bg-secondary-container text-white rounded-xl p-stack-lg flex flex-col justify-between relative overflow-hidden bento-card">
+<div class="relative z-10">
+<h3 class="font-headline-md text-headline-md">Custom Campaign Architect</h3>
+<p class="text-white/80 font-body-sm text-body-sm mt-2">Let AI group the remaining 482 at-risk items into a custom flash sale event based on user purchase history.</p>
+</div>
+<div class="relative z-10 mt-6">
+<button class="w-full bg-white text-secondary-container font-label-md text-label-md py-3 rounded-lg flex items-center justify-center group/btn">
+                                Generate Smart Bundle 
+                                <span class="material-symbols-outlined ml-2 transition-transform group-hover/btn:translate-x-1">magic_button</span>
+</button>
+</div>
+<!-- Decorative background element -->
+<div class="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+<div class="absolute -top-10 -left-10 w-32 h-32 bg-primary-container/20 rounded-full blur-2xl"></div>
+</div>
+</div>
+</section>
+<!-- Bottom Floating Action Integration (Suppressed as per rules but contextually present as a page element) -->
+<div class="flex justify-between items-center p-stack-lg bg-surface border border-border-subtle rounded-xl">
+<div class="flex items-center space-x-4">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">analytics</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-text-heading">Deep Learning Log</p>
+<p class="font-body-sm text-body-sm text-text-body opacity-60">Last updated 14 minutes ago • Analysis of 12,400+ transactions</p>
+</div>
+</div>
+<button class="bg-white border border-border-subtle text-text-body font-label-md text-label-md px-6 py-2.5 rounded-lg hover:bg-surface-muted transition-all active:scale-95">
+                    View Methodology
+                </button>
+</div>
+</div>
+</main>
+<!-- Global Notification (AI Insight Micro-interaction) -->
+<div class="fixed bottom-8 right-8 z-[100] translate-y-20 opacity-0 transition-all duration-500 pointer-events-none" id="ai-toast">
+<div class="bg-on-surface text-white p-4 rounded-xl shadow-2xl flex items-center space-x-4 border border-white/10 max-w-sm pointer-events-auto">
+<div class="bg-primary-container/20 p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary-fixed-dim">auto_awesome</span>
+</div>
+<div>
+<p class="font-label-md text-label-md">New Insight Found</p>
+<p class="font-body-sm text-body-sm text-white/70">Potential 8% waste reduction identified in Frozen Goods.</p>
+</div>
+<button class="text-white/40 hover:text-white" onclick="hideToast()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+</div>
+<script>
+        // Simple Micro-interactions
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const toast = document.getElementById('ai-toast');
+                toast.classList.remove('translate-y-20', 'opacity-0');
+                toast.classList.add('translate-y-0', 'opacity-100');
+            }, 3000);
+        });
+
+        function hideToast() {
+            const toast = document.getElementById('ai-toast');
+            toast.classList.add('translate-y-20', 'opacity-0');
+            toast.classList.remove('translate-y-0', 'opacity-100');
+        }
+
+        // Simulating data density feel with table highlights
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.querySelector('td:nth-child(2)').classList.add('scale-105', 'origin-left', 'transition-transform');
+            });
+            row.addEventListener('mouseleave', () => {
+                row.querySelector('td:nth-child(2)').classList.remove('scale-105');
+            });
+        });
+    </script>
+</body></html>

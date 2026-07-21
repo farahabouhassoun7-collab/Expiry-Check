@@ -1,0 +1,2 @@
+# SPA fallback: all non-file routes go to index.html
+/*  /index.html  200

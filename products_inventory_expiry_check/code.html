@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Product Inventory | Expiry Check</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#f8f9ff",
+                    "text-body": "#334155",
+                    "surface-muted": "#F8FAFC",
+                    "on-primary-fixed-variant": "#005236",
+                    "on-tertiary-fixed-variant": "#842225",
+                    "on-secondary-fixed": "#001a42",
+                    "on-surface": "#0b1c30",
+                    "tertiary": "#a43a3a",
+                    "on-error": "#ffffff",
+                    "background": "#f8f9ff",
+                    "secondary": "#0058be",
+                    "secondary-fixed-dim": "#adc6ff",
+                    "background-pure": "#FFFFFF",
+                    "tertiary-fixed": "#ffdad7",
+                    "primary-container": "#10b981",
+                    "on-tertiary-container": "#711419",
+                    "inverse-surface": "#213145",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#fefcff",
+                    "primary-fixed-dim": "#4edea3",
+                    "border-subtle": "#E2E8F0",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-bright": "#f8f9ff",
+                    "surface-container": "#e5eeff",
+                    "on-primary-fixed": "#002113",
+                    "error-container": "#ffdad6",
+                    "surface-tint": "#006c49",
+                    "surface-variant": "#d3e4fe",
+                    "on-primary-container": "#00422b",
+                    "secondary-container": "#2170e4",
+                    "primary": "#006c49",
+                    "accent-danger": "#FF3D57",
+                    "outline-variant": "#bbcabf",
+                    "tertiary-fixed-dim": "#ffb3af",
+                    "text-heading": "#0F172A",
+                    "tertiary-container": "#fc7c78",
+                    "on-background": "#0b1c30",
+                    "on-secondary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "secondary-fixed": "#d8e2ff",
+                    "on-tertiary-fixed": "#410005",
+                    "outline": "#6c7a71",
+                    "on-surface-variant": "#3c4a42",
+                    "surface-container-high": "#dce9ff",
+                    "inverse-primary": "#4edea3",
+                    "surface-container-low": "#eff4ff",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#cbdbf5",
+                    "on-tertiary": "#ffffff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "primary-fixed": "#6ffbbe",
+                    "on-secondary-fixed-variant": "#004395"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "stack-sm": "8px",
+                    "base": "4px",
+                    "stack-md": "16px",
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "margin-desktop": "32px",
+                    "stack-lg": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "display-lg": ["Inter"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-text-body">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-surface border-r border-border-subtle flex flex-col py-stack-lg px-stack-md z-50">
+<div class="mb-10 px-stack-sm flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface leading-tight">Expiry Check</h1>
+<p class="font-label-sm text-label-sm text-outline">Intelligence Suite</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-stack-sm py-3 rounded-lg text-text-body hover:bg-surface-muted transition-colors group" href="#">
+<span class="material-symbols-outlined text-outline group-hover:text-primary">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<!-- Products - ACTIVE -->
+<a class="flex items-center gap-3 px-stack-sm py-3 rounded-lg text-primary font-bold border-r-2 border-primary bg-surface-muted" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-label-md text-label-md">Products</span>
+</a>
+<!-- Alerts -->
+<a class="flex items-center gap-3 px-stack-sm py-3 rounded-lg text-text-body hover:bg-surface-muted transition-colors group" href="#">
+<span class="material-symbols-outlined text-outline group-hover:text-primary">notifications_active</span>
+<span class="font-label-md text-label-md">Alerts</span>
+</a>
+<!-- Analytics -->
+<a class="flex items-center gap-3 px-stack-sm py-3 rounded-lg text-text-body hover:bg-surface-muted transition-colors group" href="#">
+<span class="material-symbols-outlined text-outline group-hover:text-primary">monitoring</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<!-- AI Insights -->
+<a class="flex items-center gap-3 px-stack-sm py-3 rounded-lg text-text-body hover:bg-surface-muted transition-colors group" href="#">
+<span class="material-symbols-outlined text-outline group-hover:text-primary">psychology</span>
+<span class="font-label-md text-label-md">AI Insights</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center gap-3 px-stack-sm py-3 rounded-lg text-text-body hover:bg-surface-muted transition-colors group" href="#">
+<span class="material-symbols-outlined text-outline group-hover:text-primary">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-4 bg-surface-container-low rounded-xl border border-border-subtle">
+<p class="font-label-sm text-label-sm font-bold text-on-surface mb-2">Usage Limit</p>
+<div class="w-full bg-outline-variant h-1.5 rounded-full overflow-hidden mb-2">
+<div class="bg-primary h-full w-3/4"></div>
+</div>
+<p class="font-label-sm text-label-sm text-outline">75% of stock analyzed</p>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 h-16 bg-background-pure border-b border-border-subtle flex justify-between items-center px-gutter">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-muted border border-border-subtle rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary transition-all font-body-sm text-body-sm" placeholder="Global search items, SKU or alerts..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-surface-muted rounded-lg transition-all relative">
+<span class="material-symbols-outlined text-text-body">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-accent-danger rounded-full border-2 border-background-pure"></span>
+</button>
+<button class="p-2 hover:bg-surface-muted rounded-lg transition-all">
+<span class="material-symbols-outlined text-text-body">auto_awesome</span>
+</button>
+<div class="h-8 w-px bg-border-subtle mx-2"></div>
+<button class="flex items-center gap-3 p-1 pr-3 hover:bg-surface-muted rounded-full transition-all">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged male executive with a warm, confident smile, wearing a clean charcoal suit. The lighting is bright and soft, typical of a high-end corporate studio environment. The background is a minimalist, slightly out-of-focus modern office with glass walls and neutral tones, aligning with a premium B2B SaaS aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxvp4VnLtZL2tLlCAeY8ppYo1gRmzBq088N_7klpjrcmBK4MVyPLhjs9_Kwgym0ySQjuwWgI4Wz5jtVpZ5SOdtGOy-VW7pE_19bKY8jf_9So3OKdfxmh6L_GAAigBsC4zyK6BXpTBNnYt8sNoqWBuiwNe9lh-u1MCfk5on5F94USU_ta-nWKc8AjxyDPh1L7Phti9XcVh7fyV2lVbRTxdNHE7QacEDWqaZi8iJ1dTXCAd6zTQY0SoTJpqEBc84Snyu2yrFUZJRyMo"/>
+</div>
+<span class="font-label-md text-label-md text-on-surface">Alex Thompson</span>
+</button>
+</div>
+</header>
+<!-- Page Content -->
+<div class="mt-16 p-stack-lg max-w-[1400px] mx-auto w-full">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-heading">Product Inventory</h2>
+<p class="font-body-md text-body-md text-outline">Manage and monitor stock expiration cycles across 1,248 items.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2.5 bg-background-pure border border-border-subtle rounded-lg font-label-md text-label-md text-text-body hover:bg-surface-muted active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[20px]">file_download</span>
+                        Export Report
+                    </button>
+<button class="flex items-center gap-2 px-6 py-2.5 bg-primary-container text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 active:scale-[0.98] transition-all shadow-sm">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                        Add Product
+                    </button>
+</div>
+</div>
+<!-- Filters Section -->
+<div class="bg-background-pure p-stack-md rounded-xl border border-border-subtle mb-6 flex flex-wrap items-center gap-4">
+<div class="flex-1 min-w-[300px] relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 bg-surface-muted border border-border-subtle rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body-sm text-body-sm" placeholder="Filter by product name or SKU..." type="text"/>
+</div>
+<div class="w-48">
+<select class="w-full px-4 py-2.5 bg-background-pure border border-border-subtle rounded-lg font-body-sm text-body-sm focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none cursor-pointer">
+<option>All Categories</option>
+<option>Pharmaceuticals</option>
+<option>Biologicals</option>
+<option>Medical Supplies</option>
+<option>Reagents</option>
+</select>
+</div>
+<div class="flex items-center gap-2">
+<p class="font-label-sm text-label-sm text-outline mr-2">Risk Level:</p>
+<button class="px-3 py-1.5 rounded-full border border-error bg-error/5 text-error font-label-sm text-label-sm flex items-center gap-1 hover:bg-error/10 transition-colors">
+                        Critical <span class="material-symbols-outlined text-[14px]">close</span>
+</button>
+<button class="px-3 py-1.5 rounded-full border border-border-subtle text-text-body font-label-sm text-label-sm hover:bg-surface-muted transition-colors">
+                        High
+                    </button>
+<button class="px-3 py-1.5 rounded-full border border-border-subtle text-text-body font-label-sm text-label-sm hover:bg-surface-muted transition-colors">
+                        Medium
+                    </button>
+<button class="px-3 py-1.5 rounded-full border border-border-subtle text-text-body font-label-sm text-label-sm hover:bg-surface-muted transition-colors">
+                        Low
+                    </button>
+</div>
+<button class="ml-auto p-2.5 text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+<!-- Inventory Table -->
+<div class="bg-background-pure rounded-xl border border-border-subtle overflow-hidden shadow-sm">
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-muted border-b border-border-subtle">
+<tr>
+<th class="px-6 py-4 font-label-sm text-label-sm text-outline uppercase tracking-wider">Product Name</th>
+<th class="px-6 py-4 font-label-sm text-label-sm text-outline uppercase tracking-wider">SKU</th>
+<th class="px-6 py-4 font-label-sm text-label-sm text-outline uppercase tracking-wider">Stock Level</th>
+<th class="px-6 py-4 font-label-sm text-label-sm text-outline uppercase tracking-wider">Expiry Date</th>
+<th class="px-6 py-4 font-label-sm text-label-sm text-outline uppercase tracking-wider">Remaining</th>
+<th class="px-6 py-4 font-label-sm text-label-sm text-outline uppercase tracking-wider">Velocity</th>
+<th class="px-6 py-4 font-label-sm text-label-sm text-outline uppercase tracking-wider">Risk Level</th>
+<th class="px-6 py-4"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<!-- Row 1: Critical -->
+<tr class="hover:bg-surface-muted transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg overflow-hidden bg-surface-container border border-border-subtle">
+<img alt="Product" class="w-full h-full object-cover" data-alt="A clean, minimalist studio shot of a white medicinal box with emerald green branding details. The product is placed on a reflective white surface under bright, clinical, even lighting that emphasizes a high-end pharmaceutical aesthetic. The background is a soft, light grey gradient, creating a professional and reliable mood for inventory management." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzmImjgWcaAIOQb_6jTZ24IMu6G29YD4iLKE6Shyn0N8jXZCRVQuEWt05EGb9hiS45aSLxyPyVzWOWdFfj-MVy7n8n4YmKo_BP3rXZUfBAGz17NfCX3ulR_si6HYd59_ynh9DQdokqvFwIdD5H1bVV3zYPa49lwRy8rOEdLHIZrlh6z5VXGewwxOZnZgwm5Th39BLsArIYbHkUMmwJ-YT6C0qXBguEjCUjrznAJkO1FSrNgSw_KsH2oP5pt093OhI_dIIgQlCM5zw"/>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Amoxicillin CL 500mg</p>
+<p class="font-body-sm text-body-sm text-outline">Pharmaceuticals</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-code text-code text-text-body">AMX-500-24</td>
+<td class="px-6 py-4">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-sm text-label-sm text-text-body">
+<span>42 units</span>
+<span>Low</span>
+</div>
+<div class="w-24 bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+<div class="bg-accent-danger h-full w-1/5"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-sm text-body-sm text-text-body">Oct 12, 2023</td>
+<td class="px-6 py-4">
+<span class="font-label-md text-label-md text-error">12 Days</span>
+</td>
+<td class="px-6 py-4 font-body-sm text-body-sm text-text-body">8.2/day</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full bg-error/10 text-error font-label-sm text-label-sm font-bold">Critical</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 hover:bg-surface-container rounded-lg text-outline opacity-0 group-hover:opacity-100 transition-all">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 2: High -->
+<tr class="hover:bg-surface-muted transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg overflow-hidden bg-surface-container border border-border-subtle">
+<img alt="Product" class="w-full h-full object-cover" data-alt="Close-up macro shot of transparent medical vials filled with clear fluid, arranged in a precise row on a stainless steel lab bench. The scene is illuminated by cool blue and bright white laboratory lights, creating a high-tech and sterile atmosphere. The aesthetic is extremely clean and modern, focusing on precision and high-utility data." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-7OncvhoFgFfBF-Z3-r_gGaxa-drIa9AfoGUDdMHrp_jeeZzT-EpVgv4v_dLyQ7bSsR_RJ8l78WrD-zYm3Kxt85BTvrh2Ek8UaoaxlqjSy9zVAxpwqN9cJ6SutAuI4-6Hvt7tZLoc6YKAfO7HNph6S7xp7tkcyyYn1aT32EZDaLnYIrbanzR7IFZRzyLnbeDp7IvU-vBFmkbhCuF-fTxOweguFlhklmDTkiMEbyJ4PKZVzXAnuHfX9g1z750MkjDRrU0jtjIU4wg"/>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Insulin Glargine 10ml</p>
+<p class="font-body-sm text-body-sm text-outline">Biologicals</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-code text-code text-text-body">INS-GL-10ML</td>
+<td class="px-6 py-4">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-sm text-label-sm text-text-body">
+<span>156 units</span>
+<span>Normal</span>
+</div>
+<div class="w-24 bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+<div class="bg-tertiary-container h-full w-2/3"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-sm text-body-sm text-text-body">Nov 04, 2023</td>
+<td class="px-6 py-4">
+<span class="font-label-md text-label-md text-tertiary">35 Days</span>
+</td>
+<td class="px-6 py-4 font-body-sm text-body-sm text-text-body">14.5/day</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full bg-tertiary/10 text-tertiary font-label-sm text-label-sm font-bold">High</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 hover:bg-surface-container rounded-lg text-outline opacity-0 group-hover:opacity-100 transition-all">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3: Medium -->
+<tr class="hover:bg-surface-muted transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg overflow-hidden bg-surface-container border border-border-subtle">
+<img alt="Product" class="w-full h-full object-cover" data-alt="A professional flat-lay of medical diagnostic test kits in sleek, navy and white packaging. The items are neatly organized on a matte light blue surface, photographed from directly above. The lighting is diffused and soft, highlighting the clean typography and professional branding. The overall color palette is clinical and sophisticated, emphasizing trust and accuracy." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfny_4sw8nCJg6xk1mK8QiBnqiEWXrNsNYEPi90Y2SGkKxxb6mgcn0CnDt1B6JjeKX1ZJQ-uxaeblihuKRk4FQvgk0cWdyPOr_SL_dSMrBwvYrn4RCmVje5kiUXot49J6PUym-FHO-LXiS5tu-CXJPLCI_4fLRWzaYJKTlaCtZMlyS7LAv_lYM8x6-9thTR3Y2UCb80u2bFodWDfygofoHRJwunzjylJO2_Pecko5HGLRK_YZhbFOu8-bAVItpCEPG3no5s2KTFg4"/>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">PCR Test Reagent Kit</p>
+<p class="font-body-sm text-body-sm text-outline">Reagents</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-code text-code text-text-body">PCR-RG-KIT</td>
+<td class="px-6 py-4">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-sm text-label-sm text-text-body">
+<span>890 units</span>
+<span>Full</span>
+</div>
+<div class="w-24 bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary-container h-full w-full"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-sm text-body-sm text-text-body">Jan 18, 2024</td>
+<td class="px-6 py-4">
+<span class="font-label-md text-label-md text-secondary">110 Days</span>
+</td>
+<td class="px-6 py-4 font-body-sm text-body-sm text-text-body">4.1/day</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full bg-secondary/10 text-secondary font-label-sm text-label-sm font-bold">Medium</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 hover:bg-surface-container rounded-lg text-outline opacity-0 group-hover:opacity-100 transition-all">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 4: Low -->
+<tr class="hover:bg-surface-muted transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg overflow-hidden bg-surface-container border border-border-subtle">
+<img alt="Product" class="w-full h-full object-cover" data-alt="A macro photograph showing the texture of high-quality surgical face masks in a soft mint green. The masks are stacked neatly in a minimalist white box. The lighting is crisp and airy, with high-key brightness that suggests cleanliness and safety. The depth of field is shallow, creating a soft focus on the edges, maintaining a premium and modern medical visual language." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQJjA1iv6CDy8i7pApelKSQXjMH7SxQne3XT4pEuZ2vzK9E8-U_27UEG-HXad7phMCjvV66vmofj7sTQchjHGin_7hTNtVvJAJcPUHeVRt2edofWctyIgJlvwM0QaCrmn05hEW_jnYqeiV_QgZzKia5Zoxs5WRMg_ZX8vFd4_-jGXGAdqht66PNfo2jb7RF2mci2Srjx22pUOJUQ8UuD_M9E_Ve7ve6qjbHoQhcENpl4IkqaxiAfrWHCvEFCrT5-2k_pjI9oMNcOU"/>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Sterile Surgical Masks</p>
+<p class="font-body-sm text-body-sm text-outline">Medical Supplies</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-code text-code text-text-body">SMSK-HYG-01</td>
+<td class="px-6 py-4">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-sm text-label-sm text-text-body">
+<span>2,400 units</span>
+<span>Overstock</span>
+</div>
+<div class="w-24 bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full w-full"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-body-sm text-body-sm text-text-body">Aug 22, 2025</td>
+<td class="px-6 py-4">
+<span class="font-label-md text-label-md text-primary">&gt; 600 Days</span>
+</td>
+<td class="px-6 py-4 font-body-sm text-body-sm text-text-body">45.0/day</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm font-bold">Low</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-2 hover:bg-surface-container rounded-lg text-outline opacity-0 group-hover:opacity-100 transition-all">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination & Controls -->
+<div class="px-6 py-4 bg-background-pure border-t border-border-subtle flex items-center justify-between">
+<div class="flex items-center gap-4">
+<p class="font-body-sm text-body-sm text-outline">Showing 1 to 10 of 1,248 items</p>
+<div class="flex items-center gap-2">
+<span class="font-body-sm text-body-sm text-outline">Items per page:</span>
+<select class="bg-surface-muted border border-border-subtle rounded px-2 py-1 font-body-sm text-body-sm focus:outline-none">
+<option>10</option>
+<option>25</option>
+<option>50</option>
+<option>100</option>
+</select>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-2 text-outline hover:text-on-surface disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">first_page</span>
+</button>
+<button class="p-2 text-outline hover:text-on-surface disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<div class="flex items-center px-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-on-primary font-label-md text-label-md">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-outline hover:bg-surface-muted font-label-md text-label-md">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-outline hover:bg-surface-muted font-label-md text-label-md">3</button>
+<span class="px-2 text-outline">...</span>
+<button class="w-8 h-8 flex items-center justify-center rounded-lg text-outline hover:bg-surface-muted font-label-md text-label-md">125</button>
+</div>
+<button class="p-2 text-outline hover:text-on-surface">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+<button class="p-2 text-outline hover:text-on-surface">
+<span class="material-symbols-outlined">last_page</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bento Summary Insights -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8">
+<div class="col-span-1 bg-background-pure p-stack-md rounded-xl border border-border-subtle flex flex-col justify-between">
+<span class="material-symbols-outlined text-error mb-2">warning</span>
+<div>
+<h4 class="font-label-sm text-label-sm text-outline uppercase">Stock Out Risk</h4>
+<p class="font-headline-md text-headline-md text-on-surface">12 items</p>
+</div>
+<p class="text-error font-body-sm text-body-sm mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> 4 since yesterday
+                    </p>
+</div>
+<div class="col-span-1 bg-background-pure p-stack-md rounded-xl border border-border-subtle flex flex-col justify-between">
+<span class="material-symbols-outlined text-secondary mb-2">schedule</span>
+<div>
+<h4 class="font-label-sm text-label-sm text-outline uppercase">Near Expiry</h4>
+<p class="font-headline-md text-headline-md text-on-surface">48 items</p>
+</div>
+<p class="text-secondary font-body-sm text-body-sm mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">remove</span> No change
+                    </p>
+</div>
+<div class="col-span-1 bg-background-pure p-stack-md rounded-xl border border-border-subtle flex flex-col justify-between">
+<span class="material-symbols-outlined text-primary mb-2">fact_check</span>
+<div>
+<h4 class="font-label-sm text-label-sm text-outline uppercase">Waste Reduced</h4>
+<p class="font-headline-md text-headline-md text-on-surface">$14.2k</p>
+</div>
+<p class="text-primary font-body-sm text-body-sm mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">trending_up</span> 12% this month
+                    </p>
+</div>
+<div class="col-span-1 bg-primary text-on-primary p-stack-md rounded-xl border border-primary flex flex-col justify-between">
+<span class="material-symbols-outlined mb-2" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<div>
+<h4 class="font-label-sm text-label-sm text-on-primary/80 uppercase">AI Reorder Recs</h4>
+<p class="font-headline-md text-headline-md">Active</p>
+</div>
+<button class="mt-4 text-on-primary font-label-sm text-label-sm underline underline-offset-4 decoration-on-primary/40 text-left">View 8 Suggestions</button>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple active state and hover effects logic
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                // If this were a real app, we'd handle routing.
+                // For the demo, just visual feedback.
+            });
+        });
+
+        // Search bar micro-interaction
+        const searchInput = document.querySelector('header input');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('scale-[1.01]');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('scale-[1.01]');
+        });
+    </script>
+</body></html>

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Expiry Check | Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#f8f9ff",
+                    "text-body": "#334155",
+                    "surface-muted": "#F8FAFC",
+                    "on-primary-fixed-variant": "#005236",
+                    "on-tertiary-fixed-variant": "#842225",
+                    "on-secondary-fixed": "#001a42",
+                    "on-surface": "#0b1c30",
+                    "tertiary": "#a43a3a",
+                    "on-error": "#ffffff",
+                    "background": "#f8f9ff",
+                    "secondary": "#0058be",
+                    "secondary-fixed-dim": "#adc6ff",
+                    "background-pure": "#FFFFFF",
+                    "tertiary-fixed": "#ffdad7",
+                    "primary-container": "#10b981",
+                    "on-tertiary-container": "#711419",
+                    "inverse-surface": "#213145",
+                    "surface-container-highest": "#d3e4fe",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#fefcff",
+                    "primary-fixed-dim": "#4edea3",
+                    "border-subtle": "#E2E8F0",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-bright": "#f8f9ff",
+                    "surface-container": "#e5eeff",
+                    "on-primary-fixed": "#002113",
+                    "error-container": "#ffdad6",
+                    "surface-tint": "#006c49",
+                    "surface-variant": "#d3e4fe",
+                    "on-primary-container": "#00422b",
+                    "secondary-container": "#2170e4",
+                    "primary": "#006c49",
+                    "accent-danger": "#FF3D57",
+                    "outline-variant": "#bbcabf",
+                    "tertiary-fixed-dim": "#ffb3af",
+                    "text-heading": "#0F172A",
+                    "tertiary-container": "#fc7c78",
+                    "on-background": "#0b1c30",
+                    "on-secondary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "secondary-fixed": "#d8e2ff",
+                    "on-tertiary-fixed": "#410005",
+                    "outline": "#6c7a71",
+                    "on-surface-variant": "#3c4a42",
+                    "surface-container-high": "#dce9ff",
+                    "inverse-primary": "#4edea3",
+                    "surface-container-low": "#eff4ff",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#cbdbf5",
+                    "on-tertiary": "#ffffff",
+                    "inverse-on-surface": "#eaf1ff",
+                    "primary-fixed": "#6ffbbe",
+                    "on-secondary-fixed-variant": "#004395"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "stack-sm": "8px",
+                    "base": "4px",
+                    "stack-md": "16px",
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "margin-desktop": "32px",
+                    "stack-lg": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "code": ["jetbrainsMono"],
+                    "body-md": ["Inter"],
+                    "display-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8f9ff;
+        color: #334155;
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #E2E8F0;
+        border-radius: 10px;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(12px);
+        border: 1px solid #E2E8F0;
+      }
+    </style>
+</head>
+<body class="bg-surface text-text-body overflow-hidden">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-surface dark:bg-on-surface border-r border-border-subtle dark:border-outline-variant flex flex-col py-stack-lg px-stack-md z-50">
+<div class="flex items-center gap-3 px-stack-sm mb-10">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface dark:text-surface leading-tight">Expiry Check</h1>
+<p class="font-label-sm text-label-sm text-text-body/60 dark:text-surface-variant uppercase tracking-wider">Intelligence Suite</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-stack-sm py-3 rounded-lg transition-colors text-primary dark:text-primary-fixed-dim font-bold border-r-2 border-primary hover:bg-surface-muted dark:hover:bg-on-surface-variant group active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-stack-sm py-3 rounded-lg transition-colors text-text-body dark:text-surface-variant hover:bg-surface-muted dark:hover:bg-on-surface-variant group active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Products</span>
+</a>
+<a class="flex items-center gap-3 px-stack-sm py-3 rounded-lg transition-colors text-text-body dark:text-surface-variant hover:bg-surface-muted dark:hover:bg-on-surface-variant group active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">notifications_active</span>
+<span class="font-label-md text-label-md">Alerts</span>
+</a>
+<a class="flex items-center gap-3 px-stack-sm py-3 rounded-lg transition-colors text-text-body dark:text-surface-variant hover:bg-surface-muted dark:hover:bg-on-surface-variant group active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-stack-sm py-3 rounded-lg transition-colors text-text-body dark:text-surface-variant hover:bg-surface-muted dark:hover:bg-on-surface-variant group active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-md text-label-md">AI Insights</span>
+</a>
+<a class="flex items-center gap-3 px-stack-sm py-3 rounded-lg transition-colors text-text-body dark:text-surface-variant hover:bg-surface-muted dark:hover:bg-on-surface-variant group active:scale-95 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-border-subtle">
+<div class="flex items-center gap-3 px-stack-sm">
+<img alt="Manager Profile" class="w-10 h-10 rounded-full object-cover border-2 border-primary-container" data-alt="A professional headshot of a middle-aged male retail manager with a friendly expression. He is wearing a clean, modern navy blue blazer and a light blue dress shirt. The background is a soft-focus retail environment with warm, high-key lighting, maintaining a clean and authoritative corporate aesthetic consistent with a premium SaaS dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDt6e09Ry3mjFxSWSvSgrGVa-as5usA1YQAog7xg9ftGXpnE29qKjKhZ6yBJFhK1L0Ud4rOG4maZOuLGaDy4EQRWznzcGDZhlRODJY6s9h2X-1HWOBo6Wwsh97jBljm5_6pSWhdC6-AQbDBzYUz3m5dUV8Eqy0aXSVGLvTI9pe-3mWieaDsjNruzgXqnxMEQU_rYcDfOum4ddO5yL4zdCyLvqEX3e_ghWKPoQQWQbaiz7Cm2fginiODtQ1GJhX5oEuSFMVv74QviSU"/>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md text-on-surface font-bold truncate">Marcus Chen</p>
+<p class="font-label-sm text-label-sm text-text-body/60 truncate">Store Manager</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 h-16 bg-background-pure dark:bg-on-surface border-b border-border-subtle dark:border-outline-variant flex justify-between items-center px-gutter">
+<div class="flex items-center flex-1 max-w-xl">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-body/40">search</span>
+<input class="w-full bg-surface-muted border-none rounded-lg py-2 pl-10 pr-4 font-body-sm text-body-sm focus:ring-2 focus:ring-primary transition-all" placeholder="Search products, batches, or alerts..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center text-text-body dark:text-surface-variant hover:bg-surface-muted dark:hover:bg-on-surface-variant rounded-lg transition-all active:scale-95">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center text-primary font-bold hover:bg-surface-muted dark:hover:bg-on-surface-variant rounded-lg transition-all active:scale-95">
+<span class="material-symbols-outlined">auto_awesome</span>
+</button>
+<div class="h-8 w-[1px] bg-border-subtle mx-2"></div>
+<button class="flex items-center gap-2 px-3 py-1.5 hover:bg-surface-muted rounded-lg transition-all">
+<span class="material-symbols-outlined text-text-body">account_circle</span>
+<span class="font-label-md text-label-md text-on-surface">Store #842</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 mt-16 h-[calc(100vh-4rem)] overflow-y-auto custom-scrollbar bg-surface">
+<div class="p-gutter space-y-gutter max-w-[1440px] mx-auto">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-text-heading">Dashboard Overview</h2>
+<p class="font-body-md text-body-md text-text-body/70">Real-time inventory intelligence for your location.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-background-pure border border-border-subtle rounded-lg font-label-md text-label-md text-text-body hover:bg-surface-muted transition-all">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                        Last 30 Days
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-lg font-label-md text-label-md shadow-sm hover:opacity-90 transition-all active:scale-95">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                        Export Report
+                    </button>
+</div>
+</div>
+<!-- Overview Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-stack-md">
+<!-- Metric Card 1 -->
+<div class="bg-background-pure p-stack-lg rounded-xl border border-border-subtle shadow-sm flex flex-col gap-2">
+<span class="text-text-body/60 font-label-sm text-label-sm uppercase tracking-wide">Total Products</span>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-md text-headline-md text-text-heading">24,512</span>
+<span class="text-primary-container font-label-sm text-label-sm">+2.1%</span>
+</div>
+</div>
+<!-- Metric Card 2 -->
+<div class="bg-background-pure p-stack-lg rounded-xl border border-border-subtle shadow-sm flex flex-col gap-2">
+<span class="text-text-body/60 font-label-sm text-label-sm uppercase tracking-wide">Near Expiry</span>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-md text-headline-md text-text-heading">1,204</span>
+<span class="text-tertiary font-label-sm text-label-sm">-4%</span>
+</div>
+</div>
+<!-- Metric Card 3 -->
+<div class="bg-background-pure p-stack-lg rounded-xl border border-border-subtle shadow-sm flex flex-col gap-2">
+<span class="text-text-body/60 font-label-sm text-label-sm uppercase tracking-wide">High Risk</span>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-md text-headline-md text-accent-danger">184</span>
+<span class="text-accent-danger font-label-sm text-label-sm">Critical</span>
+</div>
+</div>
+<!-- Metric Card 4 -->
+<div class="bg-background-pure p-stack-lg rounded-xl border border-border-subtle shadow-sm flex flex-col gap-2">
+<span class="text-text-body/60 font-label-sm text-label-sm uppercase tracking-wide">Predicted Waste</span>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-md text-headline-md text-text-heading">$4,280</span>
+<span class="text-primary-container font-label-sm text-label-sm">Saved 12%</span>
+</div>
+</div>
+<!-- Metric Card 5 -->
+<div class="bg-background-pure p-stack-lg rounded-xl border border-border-subtle shadow-sm flex flex-col gap-2">
+<span class="text-text-body/60 font-label-sm text-label-sm uppercase tracking-wide">Health Score</span>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-md text-headline-md text-primary">92/100</span>
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+</div>
+</div>
+</div>
+<!-- Main Dashboard Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Large Line Chart Column -->
+<div class="lg:col-span-2 space-y-gutter">
+<!-- Expiry Risk Overview -->
+<div class="bg-background-pure rounded-xl border border-border-subtle shadow-sm p-gutter">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h3 class="font-headline-md text-headline-md text-text-heading">Expiry Risk Timeline</h3>
+<p class="font-body-sm text-body-sm text-text-body/60">Upcoming volume of products expiring in the next 30 days.</p>
+</div>
+<div class="flex gap-2">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-primary/10 text-primary font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                                    Normal
+                                </span>
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-accent-danger/10 text-accent-danger font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-accent-danger"></span>
+                                    Spike Predicted
+                                </span>
+</div>
+</div>
+<!-- Simulated Chart Canvas -->
+<div class="relative h-64 w-full bg-slate-50 rounded-lg overflow-hidden border border-slate-100">
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none" viewbox="0 0 1000 256">
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#006c49" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#006c49" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0,200 Q150,180 250,210 T500,100 T750,150 T1000,80 L1000,256 L0,256 Z" fill="url(#chartGradient)"></path>
+<path d="M0,200 Q150,180 250,210 T500,100 T750,150 T1000,80" fill="none" stroke="#006c49" stroke-width="3"></path>
+<!-- Data points -->
+<circle cx="250" cy="210" fill="#006c49" r="4"></circle>
+<circle cx="500" cy="100" fill="#006c49" r="4"></circle>
+<circle cx="750" cy="150" fill="#006c49" r="4"></circle>
+</svg>
+<div class="absolute bottom-4 left-0 right-0 px-4 flex justify-between font-label-sm text-label-sm text-text-body/40">
+<span>Day 1</span>
+<span>Day 7</span>
+<span>Day 14</span>
+<span>Day 21</span>
+<span>Day 30</span>
+</div>
+</div>
+</div>
+<!-- Top 10 High-Risk Products -->
+<div class="bg-background-pure rounded-xl border border-border-subtle shadow-sm">
+<div class="p-gutter border-b border-border-subtle flex items-center justify-between">
+<h3 class="font-headline-md text-headline-md text-text-heading">Critical Batches</h3>
+<button class="text-secondary font-label-md text-label-md hover:underline">View All Inventory</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-muted">
+<tr>
+<th class="px-gutter py-4 font-label-sm text-label-sm text-text-body/60 uppercase">Product Name</th>
+<th class="px-gutter py-4 font-label-sm text-label-sm text-text-body/60 uppercase">Batch ID</th>
+<th class="px-gutter py-4 font-label-sm text-label-sm text-text-body/60 uppercase text-center">Remaining</th>
+<th class="px-gutter py-4 font-label-sm text-label-sm text-text-body/60 uppercase">Risk Level</th>
+<th class="px-gutter py-4"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-gutter py-4 font-body-sm text-body-sm text-text-heading font-medium">Organic Whole Milk 1L</td>
+<td class="px-gutter py-4 font-code text-code text-text-body/60">#LOT-4421-B</td>
+<td class="px-gutter py-4 text-center">
+<span class="px-2 py-1 rounded bg-accent-danger/10 text-accent-danger font-label-sm text-label-sm font-bold">2 Days</span>
+</td>
+<td class="px-gutter py-4">
+<div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-accent-danger w-[92%]"></div>
+</div>
+</td>
+<td class="px-gutter py-4 text-right">
+<button class="text-text-body/40 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-gutter py-4 font-body-sm text-body-sm text-text-heading font-medium">Artisanal Greek Yogurt</td>
+<td class="px-gutter py-4 font-code text-code text-text-body/60">#LOT-5928-A</td>
+<td class="px-gutter py-4 text-center">
+<span class="px-2 py-1 rounded bg-tertiary-container/20 text-on-tertiary-container font-label-sm text-label-sm font-bold">5 Days</span>
+</td>
+<td class="px-gutter py-4">
+<div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-container w-[75%]"></div>
+</div>
+</td>
+<td class="px-gutter py-4 text-right">
+<button class="text-text-body/40 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-gutter py-4 font-body-sm text-body-sm text-text-heading font-medium">Free-Range Chicken Breast</td>
+<td class="px-gutter py-4 font-code text-code text-text-body/60">#LOT-3112-D</td>
+<td class="px-gutter py-4 text-center">
+<span class="px-2 py-1 rounded bg-accent-danger/10 text-accent-danger font-label-sm text-label-sm font-bold">3 Days</span>
+</td>
+<td class="px-gutter py-4">
+<div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-accent-danger w-[88%]"></div>
+</div>
+</td>
+<td class="px-gutter py-4 text-right">
+<button class="text-text-body/40 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-gutter py-4 font-body-sm text-body-sm text-text-heading font-medium">Avocado Hass 4pk</td>
+<td class="px-gutter py-4 font-code text-code text-text-body/60">#LOT-8821-C</td>
+<td class="px-gutter py-4 text-center">
+<span class="px-2 py-1 rounded bg-surface-container-highest text-on-secondary-fixed-variant font-label-sm text-label-sm font-bold">8 Days</span>
+</td>
+<td class="px-gutter py-4">
+<div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[40%]"></div>
+</div>
+</td>
+<td class="px-gutter py-4 text-right">
+<button class="text-text-body/40 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right Sidebar Column -->
+<div class="space-y-gutter">
+<!-- AI Recommendations Panel -->
+<div class="bg-on-primary-container text-on-primary p-gutter rounded-xl shadow-lg relative overflow-hidden">
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-primary-fixed-dim">psychology</span>
+<h3 class="font-headline-md text-headline-md">AI Prescriptions</h3>
+</div>
+<div class="space-y-4">
+<div class="p-4 bg-white/10 backdrop-blur-md rounded-lg border border-white/10 hover:bg-white/20 transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-sm text-label-sm uppercase opacity-60">Dairy Section</span>
+<span class="text-primary-fixed-dim font-bold font-label-sm text-label-sm">Impact: $840</span>
+</div>
+<p class="font-body-sm text-body-sm font-medium mb-3">Discount Organic Dairy by 25% to clear inventory before Thursday.</p>
+<button class="w-full py-2 bg-primary-fixed-dim text-on-primary-fixed font-label-md text-label-md rounded-md hover:scale-105 transition-transform active:scale-95">Apply Action</button>
+</div>
+<div class="p-4 bg-white/10 backdrop-blur-md rounded-lg border border-white/10 hover:bg-white/20 transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-sm text-label-sm uppercase opacity-60">Produce</span>
+<span class="text-primary-fixed-dim font-bold font-label-sm text-label-sm">Impact: $1,120</span>
+</div>
+<p class="font-body-sm text-body-sm font-medium mb-3">Bundle Avocado Batch #8821 with Salsas for weekend flash sale.</p>
+<button class="w-full py-2 bg-primary-fixed-dim text-on-primary-fixed font-label-md text-label-md rounded-md hover:scale-105 transition-transform active:scale-95">Apply Action</button>
+</div>
+<div class="p-4 bg-white/10 backdrop-blur-md rounded-lg border border-white/10 hover:bg-white/20 transition-all cursor-pointer">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-sm text-label-sm uppercase opacity-60">Meat &amp; Poultry</span>
+<span class="text-primary-fixed-dim font-bold font-label-sm text-label-sm">Impact: $450</span>
+</div>
+<p class="font-body-sm text-body-sm font-medium mb-3">Reduce Poultry order for Next Monday by 15% based on demand.</p>
+<button class="w-full py-2 bg-primary-fixed-dim text-on-primary-fixed font-label-md text-label-md rounded-md hover:scale-105 transition-transform active:scale-95">Update Orders</button>
+</div>
+</div>
+</div>
+<!-- Subtle Background Pattern -->
+<div class="absolute top-0 right-0 opacity-10 -translate-y-1/4 translate-x-1/4">
+<span class="material-symbols-outlined text-[200px]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+</div>
+<!-- Recent Alerts Feed -->
+<div class="bg-background-pure rounded-xl border border-border-subtle shadow-sm flex flex-col h-[400px]">
+<div class="p-gutter border-b border-border-subtle flex items-center justify-between">
+<h3 class="font-label-md text-label-md text-text-heading font-bold uppercase tracking-widest">Recent Activity</h3>
+<span class="px-2 py-1 bg-surface-muted rounded text-[10px] font-bold text-text-body/60 uppercase">Live</span>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-stack-md space-y-4">
+<div class="flex gap-3">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-accent-danger/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-accent-danger text-[18px]">priority_high</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-text-heading"><span class="font-bold">Batch Expired:</span> Lot #3391 (Beef Mince) has reached zero shelf life.</p>
+<span class="font-label-sm text-label-sm text-text-body/40">2 mins ago</span>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[18px]">verified</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-text-heading"><span class="font-bold">Check Completed:</span> Morning walk completed by Alex J.</p>
+<span class="font-label-sm text-label-sm text-text-body/40">45 mins ago</span>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[18px]">trending_up</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-text-heading"><span class="font-bold">Auto-Markdown:</span> 12 items moved to 'Flash Sale' tier.</p>
+<span class="font-label-sm text-label-sm text-text-body/40">1 hour ago</span>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="flex-shrink-0 w-8 h-8 rounded-full bg-accent-danger/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-accent-danger text-[18px]">sensors_off</span>
+</div>
+<div>
+<p class="font-body-sm text-body-sm text-text-heading"><span class="font-bold">Sensor Offline:</span> Freezer 04 temperature sensor not responding.</p>
+<span class="font-label-sm text-label-sm text-text-body/40">3 hours ago</span>
+</div>
+</div>
+</div>
+<div class="p-stack-md border-t border-border-subtle">
+<button class="w-full py-2 bg-surface-muted hover:bg-slate-100 rounded-lg font-label-md text-label-md text-text-body transition-colors">Clear All Alerts</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB for quick action (Conditional but useful for manager dashboard) -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all group z-50">
+<span class="material-symbols-outlined text-[28px] group-hover:rotate-90 transition-transform">add</span>
+<!-- Tooltip -->
+<span class="absolute right-16 bg-on-surface text-surface px-3 py-1.5 rounded text-label-sm font-label-sm opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap transition-opacity">Add New Batch</span>
+</button>
+<script>
+        // Simple interactive demo logic
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.add('scale-95');
+                setTimeout(() => this.classList.remove('scale-95'), 100);
+            });
+        });
+
+        // Animation for the AI Insight cards
+        const insightCards = document.querySelectorAll('.bg-white\\/10');
+        insightCards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                card.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 500 + (index * 150));
+        });
+    </script>
+</body></html>

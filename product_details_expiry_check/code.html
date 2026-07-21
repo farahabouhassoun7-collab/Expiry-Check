@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Expiry Check - Organic Whole Milk Details</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid #E2E8F0;
+        }
+        @keyframes subtle-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.85; }
+        }
+        .ai-pulse {
+            animation: subtle-pulse 3s ease-in-out infinite;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#f8f9ff",
+                        "text-body": "#334155",
+                        "surface-muted": "#F8FAFC",
+                        "on-primary-fixed-variant": "#005236",
+                        "on-tertiary-fixed-variant": "#842225",
+                        "on-secondary-fixed": "#001a42",
+                        "on-surface": "#0b1c30",
+                        "tertiary": "#a43a3a",
+                        "on-error": "#ffffff",
+                        "background": "#f8f9ff",
+                        "secondary": "#0058be",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "background-pure": "#FFFFFF",
+                        "tertiary-fixed": "#ffdad7",
+                        "primary-container": "#10b981",
+                        "on-tertiary-container": "#711419",
+                        "inverse-surface": "#213145",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#fefcff",
+                        "primary-fixed-dim": "#4edea3",
+                        "border-subtle": "#E2E8F0",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container": "#e5eeff",
+                        "on-primary-fixed": "#002113",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#006c49",
+                        "surface-variant": "#d3e4fe",
+                        "on-primary-container": "#00422b",
+                        "secondary-container": "#2170e4",
+                        "primary": "#006c49",
+                        "accent-danger": "#FF3D57",
+                        "outline-variant": "#bbcabf",
+                        "tertiary-fixed-dim": "#ffb3af",
+                        "text-heading": "#0F172A",
+                        "tertiary-container": "#fc7c78",
+                        "on-background": "#0b1c30",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#d8e2ff",
+                        "on-tertiary-fixed": "#410005",
+                        "outline": "#6c7a71",
+                        "on-surface-variant": "#3c4a42",
+                        "surface-container-high": "#dce9ff",
+                        "inverse-primary": "#4edea3",
+                        "surface-container-low": "#eff4ff",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#cbdbf5",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary-fixed": "#6ffbbe",
+                        "on-secondary-fixed-variant": "#004395"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "stack-sm": "8px",
+                        "base": "4px",
+                        "stack-md": "16px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "margin-desktop": "32px",
+                        "stack-lg": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "code": ["jetbrainsMono"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "code": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-text-body font-body-md overflow-x-hidden">
+<!-- Side Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-surface border-r border-border-subtle flex flex-col py-stack-lg px-stack-md z-50">
+<div class="flex items-center gap-3 mb-10 px-2">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-xl">inventory_2</span>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-on-surface leading-tight">Expiry Check</h1>
+<p class="font-label-sm text-label-sm text-text-body opacity-60">Intelligence Suite</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-body hover:bg-surface-muted transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined text-primary">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-primary font-bold border-r-2 border-primary bg-surface-muted transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span>Products</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-body hover:bg-surface-muted transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">notifications_active</span>
+<span>Alerts</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-body hover:bg-surface-muted transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span>Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-body hover:bg-surface-muted transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span>AI Insights</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-border-subtle">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-body hover:bg-surface-muted transition-colors font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</div>
+</aside>
+<!-- Top Navigation -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 h-16 bg-background-pure border-b border-border-subtle flex justify-between items-center px-gutter">
+<div class="flex items-center gap-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-body opacity-40">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-muted border-none rounded-lg text-body-sm font-body-sm w-80 focus:ring-2 focus:ring-secondary/20 transition-all" placeholder="Search inventory..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-text-body hover:bg-surface-muted p-2 rounded-lg transition-all">notifications</button>
+<button class="material-symbols-outlined text-text-body hover:bg-surface-muted p-2 rounded-lg transition-all">auto_awesome</button>
+<div class="flex items-center gap-3 ml-2 border-l border-border-subtle pl-6">
+<div class="text-right">
+<p class="font-label-md text-label-md text-on-surface">Alex Rivera</p>
+<p class="font-label-sm text-label-sm text-text-body opacity-60">Store Manager</p>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-border-subtle">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtg0z6vy18w8lgt93krFWYBCnz4oNlGr1qA-uoQUrmez1sxlvH9CLDNCcPFp2T5EeStra9PZrjnhkMQm4i4gwQEGCnmQzTT6f27mffHqpCIVR_-4PUBRnYNqfmGVgsKSE5BVxu5DX5fLELOB8s3hHElv1OsGJEBTNIFTtBUE3VBkwpIwcZ9M95Yxcq-zUtBhAn08kAlOs1bkzSbWczbOS6WVi3w7aWmWzj_LCNcjtGPLLyvW4YZyfIQ638JngxSE0O_ACKs92eV_w"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 pt-16 min-h-screen">
+<div class="max-w-[1280px] mx-auto px-margin-desktop py-stack-lg">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 mb-6 font-label-md text-label-md text-text-body opacity-60">
+<a class="hover:text-primary transition-colors" href="#">Products</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-on-surface font-semibold">Organic Whole Milk</span>
+</nav>
+<!-- Product Header Section -->
+<div class="bento-grid mb-stack-lg">
+<div class="col-span-8 bg-background-pure border border-border-subtle rounded-xl p-stack-lg shadow-sm flex gap-stack-lg">
+<div class="w-48 h-48 bg-surface-muted rounded-lg overflow-hidden border border-border-subtle flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A premium commercial photograph of a glass bottle of fresh organic whole milk sitting on a clean white countertop. Soft morning sunlight streams through a nearby window, creating gentle shadows and highlights on the condensation-covered glass. The background is a minimalist high-end kitchen with light wood accents and a blurred emerald green plant. The aesthetic is clean, healthy, and high-utility." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9KcE1AKzetV91M6YUtinei7MVI7RaDCeD5Rc6fO26ZK0WEFWKi-QFSvxdlAZhk1eh49GFR0DffquAi0YhjewmYmphCfkI2X1EjHE9W7-ABy-WDTuhqRW6e05bpRVLPMkKD2sBzS_MjrqW-n8NcQ0RFUPg8oI0BEZUZSf3N93FjShBkGZ5dnUIWmSGJhGIkgHNGbM9B0BgnKmibUZsvHwP2V9ZWln11f8mRsWowx7OuFXoP6rw39Ec9AVQe1CTBHGT1y5nS9UjPlg"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-1">Organic Whole Milk</h2>
+<p class="font-body-sm text-body-sm text-text-body opacity-60">SKU: OWM-2023-0892 • 1 Gallon Plastic Jug</p>
+</div>
+<span class="px-3 py-1 bg-primary/10 text-primary rounded-full font-label-sm text-label-sm">High Risk Item</span>
+</div>
+<div class="grid grid-cols-3 gap-6 pt-4 border-t border-border-subtle">
+<div>
+<p class="font-label-sm text-label-sm text-text-body opacity-60 mb-1 uppercase tracking-wider">Current Price</p>
+<p class="font-headline-md text-headline-md text-on-surface">$5.49</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-text-body opacity-60 mb-1 uppercase tracking-wider">In Stock</p>
+<p class="font-headline-md text-headline-md text-on-surface">142 Units</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-text-body opacity-60 mb-1 uppercase tracking-wider">Supplier</p>
+<p class="font-headline-md text-headline-md text-on-surface">Green Pastures</p>
+</div>
+</div>
+</div>
+</div>
+<div class="col-span-4 bg-background-pure border border-border-subtle rounded-xl p-stack-lg flex flex-col justify-between shadow-sm">
+<h3 class="font-label-md text-label-md text-on-surface mb-4">Quick Actions</h3>
+<div class="space-y-3">
+<button class="w-full flex items-center justify-center gap-2 py-3 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined">percent</span>
+                            Apply AI Discount
+                        </button>
+<button class="w-full flex items-center justify-center gap-2 py-3 bg-background-pure border border-border-subtle text-text-body rounded-lg font-label-md text-label-md hover:bg-surface-muted active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined">refresh</span>
+                            Reorder Now
+                        </button>
+<button class="w-full flex items-center justify-center gap-2 py-3 bg-background-pure border border-border-subtle text-accent-danger rounded-lg font-label-md text-label-md hover:bg-accent-danger/5 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined">delete_sweep</span>
+                            Mark as Waste
+                        </button>
+</div>
+</div>
+</div>
+<!-- AI Insights & Charts -->
+<div class="bento-grid mb-stack-lg">
+<!-- AI Prediction Card -->
+<div class="col-span-4 bg-gradient-to-br from-on-surface to-[#1e293b] rounded-xl p-stack-lg text-white relative overflow-hidden">
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-primary opacity-20 blur-[80px]"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary-fixed-dim ai-pulse">psychology</span>
+<h3 class="font-label-md text-label-md text-primary-fixed-dim">AI EXPIRY PREDICTION</h3>
+</div>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between items-end mb-2">
+<p class="font-body-sm text-body-sm opacity-80">Predicted Sell-Through</p>
+<p class="font-headline-md text-headline-md">82%</p>
+</div>
+<div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-primary-fixed-dim" style="width: 82%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-end mb-2">
+<p class="font-body-sm text-body-sm opacity-80">Expiration Risk</p>
+<p class="font-headline-md text-headline-md text-tertiary-container">18%</p>
+</div>
+<div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+<div class="h-full bg-tertiary-container" style="width: 18%"></div>
+</div>
+</div>
+<div class="pt-4 border-t border-white/10 flex justify-between items-center">
+<span class="font-label-sm text-label-sm opacity-60">Model Confidence</span>
+<span class="font-label-md text-label-md text-primary-fixed-dim">94% Accurate</span>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Recommendation Card -->
+<div class="col-span-8 glass-card rounded-xl p-stack-lg shadow-sm border-l-4 border-l-secondary">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">lightbulb</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Strategic Recommendation</h3>
+<p class="font-body-lg text-body-lg text-text-body leading-relaxed max-w-2xl">
+                                To optimize inventory rotation and minimize losses, we suggest a <span class="font-bold text-secondary">15% discount</span> starting this <span class="font-semibold">Friday</span>. Based on current velocity, this will clear remaining stock before the <span class="text-accent-danger font-semibold">Oct 12th</span> expiration threshold.
+                            </p>
+<div class="mt-6 flex gap-3">
+<button class="px-6 py-2 bg-secondary text-white rounded-lg font-label-md text-label-md active:scale-95 transition-transform">Execute Campaign</button>
+<button class="px-6 py-2 bg-surface-muted text-text-body rounded-lg font-label-md text-label-md hover:bg-border-subtle transition-colors">Dismiss</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Visualization Grids -->
+<div class="bento-grid mb-stack-lg">
+<div class="col-span-6 bg-background-pure border border-border-subtle rounded-xl p-stack-lg shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-label-md text-label-md text-on-surface">SALES TREND (30 DAYS)</h3>
+<div class="flex gap-2">
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-primary">
+<span class="w-2 h-2 rounded-full bg-primary"></span> Revenue
+                            </span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-secondary">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> Quantity
+                            </span>
+</div>
+</div>
+<!-- Placeholder for Chart -->
+<div class="h-64 w-full relative flex items-end justify-between px-2 gap-1">
+<div class="flex-1 bg-surface-container rounded-t-sm h-[40%]"></div>
+<div class="flex-1 bg-surface-container rounded-t-sm h-[55%]"></div>
+<div class="flex-1 bg-surface-container rounded-t-sm h-[45%]"></div>
+<div class="flex-1 bg-secondary rounded-t-sm h-[70%]"></div>
+<div class="flex-1 bg-primary rounded-t-sm h-[85%]"></div>
+<div class="flex-1 bg-surface-container rounded-t-sm h-[60%]"></div>
+<div class="flex-1 bg-surface-container rounded-t-sm h-[50%]"></div>
+<div class="flex-1 bg-surface-container rounded-t-sm h-[40%]"></div>
+<div class="flex-1 bg-primary rounded-t-sm h-[90%]"></div>
+<div class="flex-1 bg-secondary rounded-t-sm h-[65%]"></div>
+</div>
+</div>
+<div class="col-span-6 bg-background-pure border border-border-subtle rounded-xl p-stack-lg shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-label-md text-label-md text-on-surface">STOCK MOVEMENT</h3>
+<select class="text-label-sm font-label-sm border-none bg-surface-muted rounded-lg py-1">
+<option>Last 7 Days</option>
+<option>Last 14 Days</option>
+</select>
+</div>
+<!-- Waveform Stock Trend Placeholder -->
+<div class="h-64 w-full relative flex items-center justify-center">
+<svg class="w-full h-full" viewbox="0 0 400 150">
+<path d="M 0 120 Q 50 100 100 80 T 200 40 T 300 100 T 400 30" fill="none" stroke="#006c49" stroke-width="2.5"></path>
+<path d="M 0 120 Q 50 100 100 80 T 200 40 T 300 100 T 400 30 V 150 H 0 Z" fill="url(#grad1)" opacity="0.1"></path>
+<defs>
+<lineargradient id="grad1" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#006c49;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#006c49;stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+<circle cx="200" cy="40" fill="#006c49" r="4"></circle>
+</svg>
+<div class="absolute top-4 right-10 bg-on-surface text-white px-3 py-1.5 rounded-lg text-label-sm font-label-sm shadow-xl">
+                            Peak Stock: 180 units
+                        </div>
+</div>
+</div>
+</div>
+<!-- Movement Log -->
+<div class="bg-background-pure border border-border-subtle rounded-xl shadow-sm overflow-hidden">
+<div class="px-stack-lg py-4 border-b border-border-subtle flex justify-between items-center">
+<h3 class="font-label-md text-label-md text-on-surface">ACTIVITY HISTORY</h3>
+<button class="text-secondary font-label-sm text-label-sm hover:underline">Download CSV</button>
+</div>
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-muted">
+<th class="px-stack-lg py-3 font-label-sm text-label-sm text-text-body opacity-60">DATE &amp; TIME</th>
+<th class="px-stack-lg py-3 font-label-sm text-label-sm text-text-body opacity-60">ACTION</th>
+<th class="px-stack-lg py-3 font-label-sm text-label-sm text-text-body opacity-60">CHANGE</th>
+<th class="px-stack-lg py-3 font-label-sm text-label-sm text-text-body opacity-60">USER</th>
+<th class="px-stack-lg py-3 font-label-sm text-label-sm text-text-body opacity-60">STATUS</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<tr class="hover:bg-surface-muted transition-colors">
+<td class="px-stack-lg py-4 font-body-sm text-body-sm">Oct 02, 2023 09:14 AM</td>
+<td class="px-stack-lg py-4 font-body-sm text-body-sm">Inventory Shipment Received</td>
+<td class="px-stack-lg py-4 font-body-sm text-body-sm text-primary">+48 Units</td>
+<td class="px-stack-lg py-4 font-body-sm text-body-sm">Warehouse Ops</td>
+<td class="px-stack-lg py-4">
+<span class="px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-[12px] font-bold">Verified</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-muted transition-colors">
+<td class="px-stack-lg py-4 font-body-sm text-body-sm">Sep 30, 2023 04:30 PM</td>
+<td class="px-stack-lg py-4 font-body-sm text-body-sm">AI Price Adjustment</td>
+<td class="px-stack-lg py-4 font-body-sm text-body-sm text-secondary">-$0.50</td>
+<td class="px-stack-lg py-4 font-body-sm text-body-sm">System (Auto)</td>
+<td class="px-stack-lg py-4">
+<span class="px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-[12px] font-bold">Active</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-muted transition-colors">
+<td class="px-stack-lg py-4 font-body-sm text-body-sm">Sep 28, 2023 11:20 AM</td>
+<td class="px-stack-lg py-4 font-body-sm text-body-sm">Damaged Goods Logged</td>
+<td class="px-stack-lg py-4 font-body-sm text-body-sm text-accent-danger">-2 Units</td>
+<td class="px-stack-lg py-4 font-body-sm text-body-sm">Alex Rivera</td>
+<td class="px-stack-lg py-4">
+<span class="px-2 py-0.5 bg-red-100 text-red-700 rounded-full text-[12px] font-bold">Logged</span>
+</td>
+</tr>
+<tr class="hover:bg-surface-muted transition-colors">
+<td class="px-stack-lg py-4 font-body-sm text-body-sm">Sep 25, 2023 08:00 AM</td>
+<td class="px-stack-lg py-4 font-body-sm text-body-sm">Restock Threshold Met</td>
+<td class="px-stack-lg py-4 font-body-sm text-body-sm">N/A</td>
+<td class="px-stack-lg py-4 font-body-sm text-body-sm">System (Auto)</td>
+<td class="px-stack-lg py-4">
+<span class="px-2 py-0.5 bg-gray-100 text-gray-700 rounded-full text-[12px] font-bold">Alert Sent</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+<script>
+        // Micro-interactions
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.style.transform = 'scale(0.98)';
+            });
+            button.addEventListener('mouseup', () => {
+                button.style.transform = 'scale(1)';
+            });
+            button.addEventListener('mouseleave', () => {
+                button.style.transform = 'scale(1)';
+            });
+        });
+
+        // Simplified data visualization entry animation
+        window.addEventListener('load', () => {
+            const bars = document.querySelectorAll('.bg-surface-container, .bg-primary, .bg-secondary');
+            bars.forEach((bar, index) => {
+                const originalHeight = bar.style.height;
+                bar.style.height = '0';
+                bar.style.transition = `height 1s cubic-bezier(0.4, 0, 0.2, 1) ${index * 0.05}s`;
+                setTimeout(() => {
+                    bar.style.height = originalHeight;
+                }, 100);
+            });
+        });
+    </script>
+</body></html>
