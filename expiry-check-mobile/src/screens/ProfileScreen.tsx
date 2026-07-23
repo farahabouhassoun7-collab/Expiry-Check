@@ -29,11 +29,20 @@ export default function ProfileScreen() {
   const router = useRouter();
   const { user, logout } = useAuth();
   const [darkMode, setDarkMode] = React.useState(false);
-  const [notifs,   setNotifs]   = React.useState(true);
 
-  const initials = user ? `${user.firstName[0] || ''}${user.lastName[0] || ''}`.toUpperCase() : 'AR';
-  const fullName = user ? `${user.firstName} ${user.lastName}` : 'Alex Rivera';
-  const roleName = user ? user.role : 'Inventory Associate';
+  const rawUser = user as any;
+
+  const fullName = rawUser
+    ? (rawUser.name || `${rawUser.firstName || ''} ${rawUser.lastName || ''}`.trim() || rawUser.email || 'Store Staff')
+    : 'Store Staff';
+
+  const initials = rawUser
+    ? (rawUser.firstName && rawUser.lastName
+        ? `${rawUser.firstName[0] || ''}${rawUser.lastName[0] || ''}`.toUpperCase()
+        : fullName.slice(0, 2).toUpperCase())
+    : 'SS';
+
+  const roleName = rawUser?.role || 'Inventory Associate';
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -45,7 +54,7 @@ export default function ProfileScreen() {
           <Text style={styles.role}>{roleName}</Text>
           <View style={styles.storeBadge}>
             <Ionicons name="storefront-outline" size={12} color={Colors.primary} />
-            <Text style={styles.storeName}>Green Basket — Downtown</Text>
+            <Text style={styles.storeName}>Green Basket — Main Store</Text>
           </View>
         </View>
 

@@ -5,6 +5,7 @@ using ExpiryCheckApi.Interfaces;
 using ExpiryCheckApi.Middleware;
 using ExpiryCheckApi.Repositories;
 using ExpiryCheckApi.Services;
+using ExpiryCheckApi.Services.Background;
 using ExpiryCheckApi.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -27,10 +28,21 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection"),
         sql => sql.EnableRetryOnFailure(3)));
 
+
 // ── 3. Dependency Injection ───────────────────────────────────────
-builder.Services.AddScoped<IUserRepository,    UserRepository>();
-builder.Services.AddScoped<IAuthService,       AuthService>();
-builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+builder.Services.AddScoped<IUserRepository,          UserRepository>();
+builder.Services.AddScoped<ICategoryRepository,      CategoryRepository>();
+builder.Services.AddScoped<IProductRepository,       ProductRepository>();
+builder.Services.AddScoped<IInventoryRepository,     InventoryRepository>();
+builder.Services.AddScoped<IStockMovementRepository, StockMovementRepository>();
+builder.Services.AddScoped<IAuthService,             AuthService>();
+builder.Services.AddScoped<ICategoryService,         CategoryService>();
+builder.Services.AddScoped<IProductService,          ProductService>();
+builder.Services.AddScoped<IInventoryService,        InventoryService>();
+builder.Services.AddScoped<IStockMovementService,    StockMovementService>();
+builder.Services.AddSingleton<IJwtTokenGenerator,    JwtTokenGenerator>();
+builder.Services.AddHostedService<ExpiryCheckBackgroundService>();
+
 
 // ── 4. JWT Authentication ─────────────────────────────────────────
 builder.Services.AddAuthentication(options =>
@@ -147,11 +159,12 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-// ── 10. Auto-migrate on startup ───────────────────────────────────
+// ── 10. Auto-migrate & seed database on startup ──────────────────
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
+    await DbInitializer.SeedAsync(db);
 }
 
 app.Run();

@@ -10,6 +10,7 @@ export interface Product {
   tags: string[];
   brand?: string;
   sku: string;
+  barcode?: string;
   weight: number;
   thumbnail: string;
   images: string[];

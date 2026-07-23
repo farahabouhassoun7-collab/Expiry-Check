@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Share, Alert } from 'react-native';
+import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Share, Alert, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,9 +12,20 @@ import { Colors, Spacing, Typography, Radius, Shadows } from '../theme';
 import StatusBadge from '../components/StatusBadge';
 import Button from '../components/Button';
 import EmptyState from '../components/EmptyState';
-import { getProductById, getMockExpiryDays, getRiskLevel, formatExpiryDate } from '../services/api';
+import {
+  getProductById,
+  getBatchesByProductId,
+  getStockMovementsByProduct,
+  getMockExpiryDays,
+  getRiskLevel,
+  formatExpiryDate,
+  InventoryBatch,
+  StockMovement,
+} from '../services/api';
 import { getRiskColor } from '../utils/risk';
 import type { Product } from '../types';
+import { AddBatchModal } from '../components/AddBatchModal';
+import { StockMovementModal } from '../components/StockMovementModal';
 
 function SkeletonLine({ w = '100%' }: { w?: number | string }) {
   return (
@@ -25,10 +36,17 @@ function SkeletonLine({ w = '100%' }: { w?: number | string }) {
 export default function ProductDetailsScreen() {
   const { id }    = useLocalSearchParams<{ id: string }>();
   const router    = useRouter();
-  const [product,  setProduct]  = useState<Product | null>(null);
-  const [loading,  setLoading]  = useState(true);
-  const [error,    setError]    = useState<string | null>(null);
-  const [favorite, setFavorite] = useState(false);
+  const [product,   setProduct]   = useState<Product | null>(null);
+  const [batches,   setBatches]   = useState<InventoryBatch[]>([]);
+  const [movements, setMovements] = useState<StockMovement[]>([]);
+  const [loading,   setLoading]   = useState(true);
+  const [error,     setError]     = useState<string | null>(null);
+  const [favorite,  setFavorite]  = useState(false);
+
+  // Modals state
+  const [addBatchVisible, setAddBatchVisible] = useState(false);
+  const [movementModalVisible, setMovementModalVisible] = useState(false);
+  const [selectedBatchForMovement, setSelectedBatchForMovement] = useState<InventoryBatch | null>(null);
 
   const contentOpacity = useSharedValue(0);
   const contentY       = useSharedValue(24);
@@ -41,17 +59,33 @@ export default function ProductDetailsScreen() {
   const favStyle = useAnimatedStyle(() => ({ transform: [{ scale: favScale.value }] }));
 
   useEffect(() => {
+    loadData();
+  }, [id]);
+
+  async function loadData() {
     setLoading(true);
     setError(null);
-    getProductById(Number(id))
-      .then(p => {
-        setProduct(p);
-        contentOpacity.value = withTiming(1, { duration: 400 });
-        contentY.value       = withSpring(0, { damping: 16 });
-      })
-      .catch(e => setError(e.message ?? 'Failed to load product'))
-      .finally(() => setLoading(false));
-  }, [id]);
+    try {
+      const productIdNum = Number(id);
+      const p = await getProductById(productIdNum);
+      setProduct(p);
+
+      // Load real inventory batches and movement history
+      const [bList, mList] = await Promise.all([
+        getBatchesByProductId(productIdNum).catch(() => []),
+        getStockMovementsByProduct(productIdNum).catch(() => []),
+      ]);
+      setBatches(bList);
+      setMovements(mList);
+
+      contentOpacity.value = withTiming(1, { duration: 400 });
+      contentY.value       = withSpring(0, { damping: 16 });
+    } catch (e: any) {
+      setError(e.message ?? 'Failed to load product');
+    } finally {
+      setLoading(false);
+    }
+  }
 
   function toggleFavorite() {
     favScale.value = withSpring(1.3, { damping: 8 }, () => { favScale.value = withSpring(1); });
@@ -65,6 +99,11 @@ export default function ProductDetailsScreen() {
 
   function handleDiscount() {
     Alert.alert('AI Discount Applied', `25% discount applied to ${product?.title}`, [{ text: 'OK' }]);
+  }
+
+  function handleOpenMovement(batch: InventoryBatch) {
+    setSelectedBatchForMovement(batch);
+    setMovementModalVisible(true);
   }
 
   // ── Loading ──────────────────────────────────────────────
@@ -107,11 +146,19 @@ export default function ProductDetailsScreen() {
     );
   }
 
-  const days   = getMockExpiryDays(product.id);
-  const risk   = getRiskLevel(days);
-  const expiry = formatExpiryDate(days);
+  // Calculate total stock from real batches if available
+  const totalRealStock = batches.length > 0
+    ? batches.reduce((acc, b) => acc + b.remainingQuantity, 0)
+    : product.stock;
+
+  const earliestDays = batches.length > 0
+    ? Math.min(...batches.map(b => b.daysRemaining))
+    : getMockExpiryDays(product.id);
+
+  const risk      = getRiskLevel(earliestDays);
+  const expiry    = formatExpiryDate(earliestDays);
   const riskColor = getRiskColor(risk);
-  const stockPct  = Math.min(100, Math.round((product.stock / 150) * 100));
+  const stockPct  = Math.min(100, Math.round((totalRealStock / (product.stock || 100)) * 100));
 
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
@@ -180,9 +227,9 @@ export default function ProductDetailsScreen() {
           <Animated.View entering={FadeInDown.delay(100).springify()}>
             <View style={styles.metricsGrid}>
               {[
-                { label: 'In Stock',   value: `${product.stock}`,  icon: 'cube-outline',     color: Colors.primary                              },
+                { label: 'In Stock',   value: `${totalRealStock}`,  icon: 'cube-outline',     color: Colors.primary                              },
                 { label: 'SKU',        value: product.sku,          icon: 'barcode-outline',  color: Colors.secondary                            },
-                { label: 'Expires',    value: `${days}d`,           icon: 'time-outline',     color: days <= 3 ? Colors.error : riskColor        },
+                { label: 'Expires',    value: `${earliestDays}d`,   icon: 'time-outline',     color: earliestDays <= 3 ? Colors.error : riskColor},
                 { label: 'Rating',     value: `★ ${product.rating}`,icon: 'star-outline',     color: Colors.tertiary                             },
               ].map((m) => (
                 <View key={m.label} style={styles.metricCard}>
@@ -203,69 +250,141 @@ export default function ProductDetailsScreen() {
                 <Ionicons name="warning" size={18} color={riskColor} />
                 <View style={{ flex: 1 }}>
                   <Text style={[styles.expiryBannerTitle, { color: riskColor }]}>
-                    {risk === 'critical' ? 'Expires in ' + days + ' days — Immediate action required' : 'Expires ' + expiry}
+                    {risk === 'critical' ? 'Expires in ' + earliestDays + ' days — Immediate action required' : 'Expires ' + expiry}
                   </Text>
-                  <Text style={styles.expiryBannerSub}>Apply discount or move to clearance</Text>
+                  <Text style={styles.expiryBannerSub}>Apply discount or record stock waste</Text>
                 </View>
               </View>
             </Animated.View>
           )}
 
-          {/* Stock bar */}
-          <Animated.View entering={FadeInDown.delay(200).springify()} style={styles.stockSection}>
-            <View style={styles.stockRow}>
-              <Text style={styles.sectionLabel}>STOCK LEVEL</Text>
-              <Text style={[styles.stockPct, { color: riskColor }]}>{stockPct}%</Text>
+          {/* Inventory Batches Section */}
+          <Animated.View entering={FadeInDown.delay(200).springify()} style={styles.section}>
+            <View style={styles.sectionHeaderRow}>
+              <Text style={styles.sectionLabel}>INVENTORY BATCHES ({batches.length})</Text>
+              <TouchableOpacity
+                style={styles.addBatchBtn}
+                onPress={() => setAddBatchVisible(true)}
+              >
+                <Ionicons name="add-circle-outline" size={18} color={Colors.primary} />
+                <Text style={styles.addBatchBtnText}>Add Batch</Text>
+              </TouchableOpacity>
             </View>
-            <View style={styles.barBg}>
-              <View style={[styles.barFill, { width: `${stockPct}%` as any, backgroundColor: riskColor }]} />
-            </View>
-            <Text style={styles.stockNote}>{product.stock} units remaining · {expiry}</Text>
+
+            {batches.length === 0 ? (
+              <View style={styles.emptyCard}>
+                <Text style={styles.emptyCardText}>No active inventory batches yet.</Text>
+                <TouchableOpacity onPress={() => setAddBatchVisible(true)}>
+                  <Text style={styles.emptyCardAction}>+ Add First Batch</Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+              batches.map((b) => (
+                <View key={b.id} style={styles.batchCard}>
+                  <View style={styles.batchHeader}>
+                    <View>
+                      <Text style={styles.batchNum}>{b.batchNumber}</Text>
+                      <Text style={styles.batchSub}>
+                        Location: {b.warehouseLocation || 'Main Warehouse'}
+                      </Text>
+                    </View>
+                    <View style={styles.batchRight}>
+                      <Text style={styles.batchQty}>
+                        {b.remainingQuantity} / {b.quantity} units
+                      </Text>
+                      <Text style={[styles.batchExpiry, { color: b.daysRemaining <= 14 ? Colors.error : Colors.primary }]}>
+                        {b.daysRemaining <= 0 ? 'EXPIRED' : `${b.daysRemaining} days left`}
+                      </Text>
+                    </View>
+                  </View>
+
+                  <TouchableOpacity
+                    style={styles.movementActionBtn}
+                    onPress={() => handleOpenMovement(b)}
+                  >
+                    <Ionicons name="swap-horizontal-outline" size={16} color={Colors.secondary} />
+                    <Text style={styles.movementActionText}>Record Movement / Waste</Text>
+                  </TouchableOpacity>
+                </View>
+              ))
+            )}
           </Animated.View>
 
+          {/* Audit Movements Log */}
+          {movements.length > 0 && (
+            <Animated.View entering={FadeInDown.delay(250).springify()} style={styles.section}>
+              <Text style={styles.sectionLabel}>RECENT STOCK MOVEMENTS ({movements.length})</Text>
+              {movements.slice(0, 5).map((m) => (
+                <View key={m.id} style={styles.movementRow}>
+                  <Ionicons
+                    name={m.movementType === 'Waste' ? 'trash-bin' : m.quantity > 0 ? 'arrow-down' : 'arrow-up'}
+                    size={16}
+                    color={m.movementType === 'Waste' ? Colors.error : m.quantity > 0 ? Colors.primary : Colors.secondary}
+                  />
+                  <View style={{ flex: 1 }}>
+                    <Text style={styles.movementTitle}>{m.movementType} ({m.quantity} units)</Text>
+                    <Text style={styles.movementSub}>By {m.userName} · {m.reason || 'Regular log'}</Text>
+                  </View>
+                  <Text style={styles.movementDate}>
+                    {new Date(m.movementDate).toLocaleDateString()}
+                  </Text>
+                </View>
+              ))}
+            </Animated.View>
+          )}
+
           {/* Description */}
-          <Animated.View entering={FadeInDown.delay(250).springify()} style={styles.section}>
+          <Animated.View entering={FadeInDown.delay(280).springify()} style={styles.section}>
             <Text style={styles.sectionLabel}>DESCRIPTION</Text>
             <Text style={styles.description}>{product.description}</Text>
           </Animated.View>
-
-          {/* Tags */}
-          {product.tags?.length > 0 && (
-            <Animated.View entering={FadeInDown.delay(300).springify()} style={styles.section}>
-              <Text style={styles.sectionLabel}>TAGS</Text>
-              <View style={styles.tagsRow}>
-                {product.tags.map(tag => (
-                  <View key={tag} style={styles.tag}>
-                    <Text style={styles.tagText}>{tag}</Text>
-                  </View>
-                ))}
-              </View>
-            </Animated.View>
-          )}
-
-          {/* Image gallery */}
-          {product.images?.length > 1 && (
-            <Animated.View entering={FadeInDown.delay(320).springify()} style={styles.section}>
-              <Text style={styles.sectionLabel}>PRODUCT IMAGES</Text>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: Spacing.sm }}>
-                {product.images.map((img, i) => (
-                  <Image key={i} source={{ uri: img }} style={styles.galleryImg} resizeMode="cover" />
-                ))}
-              </ScrollView>
-            </Animated.View>
-          )}
 
           {/* Actions */}
           <Animated.View entering={FadeInDown.delay(360).springify()} style={styles.actions}>
             <Button label="🤖  Apply AI Discount" onPress={handleDiscount} variant="primary" fullWidth />
             <View style={styles.actionsRow}>
-              <Button label="Reorder Now" onPress={() => Alert.alert('Reorder', 'Reorder placed!')} variant="ghost" style={{ flex: 1 }} />
-              <Button label="Mark Waste"  onPress={() => Alert.alert('Marked', 'Item marked as waste')} variant="danger" style={{ flex: 1 }} />
+              <Button
+                label="+ Add Batch"
+                onPress={() => setAddBatchVisible(true)}
+                variant="ghost"
+                style={{ flex: 1 }}
+              />
+              <Button
+                label="Stock Movement"
+                onPress={() => {
+                  if (batches.length > 0) handleOpenMovement(batches[0]);
+                  else Alert.alert('No Batches', 'Please add a batch first.');
+                }}
+                variant="danger"
+                style={{ flex: 1 }}
+              />
             </View>
           </Animated.View>
 
         </Animated.View>
       </ScrollView>
+
+      {/* Modals */}
+      {product && (
+        <>
+          <AddBatchModal
+            visible={addBatchVisible}
+            productId={product.id}
+            productName={product.title}
+            onClose={() => setAddBatchVisible(false)}
+            onSuccess={loadData}
+          />
+          <StockMovementModal
+            visible={movementModalVisible}
+            batch={selectedBatchForMovement}
+            onClose={() => {
+              setMovementModalVisible(false);
+              setSelectedBatchForMovement(null);
+            }}
+            onSuccess={loadData}
+          />
+        </>
+      )}
     </SafeAreaView>
   );
 }
@@ -296,20 +415,30 @@ const styles = StyleSheet.create({
   expiryBanner:      { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, padding: Spacing.base, borderRadius: Radius.xl, borderWidth: 1 },
   expiryBannerTitle: { ...Typography.smallBold },
   expiryBannerSub:   { ...Typography.caption, color: Colors.outline, marginTop: 2 },
-  stockSection:      { backgroundColor: Colors.backgroundPure, borderRadius: Radius.xl, padding: Spacing.base, borderWidth: 1, borderColor: Colors.borderSubtle, gap: Spacing.sm },
-  stockRow:          { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  sectionLabel:      { ...Typography.label, color: Colors.outline, textTransform: 'uppercase' },
-  stockPct:          { ...Typography.bodyBold },
-  barBg:             { height: 8, backgroundColor: Colors.surfaceContainer, borderRadius: Radius.full, overflow: 'hidden' },
-  barFill:           { height: '100%', borderRadius: Radius.full },
-  stockNote:         { ...Typography.caption, color: Colors.outline },
   section:           { gap: Spacing.sm },
+  sectionHeaderRow:  { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  sectionLabel:      { ...Typography.label, color: Colors.outline, textTransform: 'uppercase' },
+  addBatchBtn:       { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  addBatchBtnText:   { ...Typography.smallBold, color: Colors.primary },
+  emptyCard:         { backgroundColor: Colors.backgroundPure, borderRadius: Radius.lg, padding: Spacing.md, borderWidth: 1, borderColor: Colors.borderSubtle, alignItems: 'center', gap: 6 },
+  emptyCardText:     { ...Typography.small, color: Colors.outline },
+  emptyCardAction:   { ...Typography.smallBold, color: Colors.primary },
+  batchCard:         { backgroundColor: Colors.backgroundPure, borderRadius: Radius.lg, padding: Spacing.md, borderWidth: 1, borderColor: Colors.borderSubtle, gap: 10 },
+  batchHeader:       { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
+  batchNum:          { ...Typography.bodyBold, color: Colors.textHeading },
+  batchSub:          { ...Typography.caption, color: Colors.outline, marginTop: 2 },
+  batchRight:        { alignItems: 'flex-end' },
+  batchQty:          { ...Typography.smallBold, color: Colors.primary },
+  batchExpiry:       { ...Typography.caption, fontWeight: '700', marginTop: 2 },
+  movementActionBtn: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: Colors.surfaceContainer, paddingVertical: 8, paddingHorizontal: 12, borderRadius: Radius.md, alignSelf: 'flex-start' },
+  movementActionText:{ ...Typography.caption, color: Colors.secondary, fontWeight: '600' },
+  movementRow:       { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, backgroundColor: Colors.backgroundPure, padding: Spacing.sm, borderRadius: Radius.md, borderWidth: 1, borderColor: Colors.borderSubtle },
+  movementTitle:     { ...Typography.smallBold, color: Colors.textHeading },
+  movementSub:       { ...Typography.caption, color: Colors.outline },
+  movementDate:      { ...Typography.caption, color: Colors.outline },
   description:       { ...Typography.body, color: Colors.textBody, lineHeight: 22 },
-  tagsRow:           { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.sm },
-  tag:               { paddingHorizontal: Spacing.md, paddingVertical: 4, backgroundColor: Colors.surfaceContainer, borderRadius: Radius.full },
-  tagText:           { ...Typography.caption, color: Colors.textBody },
-  galleryImg:        { width: 100, height: 100, borderRadius: Radius.lg, backgroundColor: Colors.surfaceContainer },
   actions:           { gap: Spacing.sm },
   actionsRow:        { flexDirection: 'row', gap: Spacing.sm },
   skeleton:          { height: 16, backgroundColor: Colors.surfaceContainer, borderRadius: Radius.md },
 });
+
